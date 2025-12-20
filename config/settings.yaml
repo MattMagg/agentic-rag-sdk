@@ -1,0 +1,28 @@
+qdrant:
+  url: ${QDRANT_URL}
+  api_key: ${QDRANT_API_KEY}
+  collection: ${QDRANT_COLLECTION}
+
+voyage:
+  api_key: ${VOYAGE_API_KEY}
+
+  # Dense models
+  docs_model: "voyage-context-3"
+  code_model: "voyage-code-3"
+  output_dimension: 2048
+  output_dtype: "float"
+
+  # Reranker
+  rerank_model: "rerank-2.5"
+
+vectors:
+  dense_docs: "dense_docs"
+  dense_code: "dense_code"
+  sparse_lexical: "sparse_lexical"
+
+retrieval_defaults:
+  fusion: "rrf"
+  prefetch_limit_dense: ${RETRIEVAL_PREFETCH_LIMIT_DENSE}
+  prefetch_limit_sparse: ${RETRIEVAL_PREFETCH_LIMIT_SPARSE}
+  final_limit: ${RETRIEVAL_FINAL_LIMIT}
+  rerank_top_k: ${RERANK_TOP_K}

@@ -1,0 +1,14 @@
+{
+    "adk_python": {
+        "repo_path": "corpora/adk-python",
+        "remote": "https://github.com/google/adk-python.git",
+        "ref": "main",
+        "commit": "0b1cff2976d1c04acf3863f76107b05d1cec448f"
+    },
+    "adk_docs": {
+        "repo_path": "corpora/adk-docs",
+        "remote": "https://github.com/google/adk-docs.git",
+        "ref": "main",
+        "commit": "380fd55b80bcc4035f23d86b47522056c755c0ef"
+    }
+}

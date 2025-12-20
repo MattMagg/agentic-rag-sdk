@@ -76,7 +76,9 @@ Qdrant documents that hybrid/multi-stage queries use `prefetch` and that hybrid 
 
 If you plan to run ADK tooling in the same workspace, note the ADK docs site indicates **ADK Python v1.19.0 requires Python 3.10+** ([Google GitHub Page][9]).
 
-**Spec decision:** Use **Python 3.11** (safe, modern, widely supported).
+**Spec decision:** Use **Python 3.11 or 3.12** (safe, modern, widely supported).
+
+> **Note:** Python 3.14+ is too new for the `voyageai` package (as of v0.3.7). If your system Python is 3.14, create a venv with an older Python: `/opt/homebrew/bin/python3.12 -m venv .venv`
 
 ## 2.2 Accounts / credentials required
 
@@ -270,17 +272,18 @@ retrieval_defaults:
 
 Minimum required libraries:
 
-* `qdrant-client` (cloud connection + query API)
-* `voyageai`
-* `pydantic` (settings/contracts)
-* `python-dotenv` (local env loading)
-* `httpx` (if you choose async patterns)
-* `rich` or `structlog` (logging)
+* `qdrant-client>=1.12.0` (cloud connection + query API)
+* `voyageai>=0.3.0` (embeddings + reranking; requires Python <3.14)
+* `pydantic>=2.0.0` (data contracts)
+* `pydantic-settings>=2.0.0` (BaseSettings for config)
+* `python-dotenv>=1.0.0` (local env loading)
+* `pyyaml>=6.0.0` (YAML config parsing)
+* `rich>=13.0.0` (logging and output formatting)
 
 **Suggested install**
 
 ```bash
-pip install qdrant-client voyageai pydantic python-dotenv httpx rich
+pip install qdrant-client voyageai pydantic pydantic-settings python-dotenv pyyaml rich
 ```
 
 **Why qdrant-client**
@@ -324,10 +327,17 @@ Expose three calls:
      * `output_dimension=2048` ([Voyage AI][7])
      * `output_dtype="float"` ([Voyage AI][7])
 
-2. `embed_docs_contextualized(inputs: list[list[str]], input_type: "query"|"document") -> list[list[list[float]]]`
+2. `embed_docs_contextualized(inputs: list[list[str]], input_type: "query"|"document") -> list[list[float]]`
 
    * Use `voyageai.Client.contextualized_embed(...)`
-   * Contextualized endpoint example shows `model="voyage-context-3"` and `input_type` usage ([Voyage AI][6])
+   * Must pass: `model="voyage-context-3"`, `output_dimension=2048`, `output_dtype="float"`
+   * **Return structure:** Returns a `ContextualizedEmbeddingsObject` with `.results` attribute. Each result has `.embeddings` (list of vectors for that document's chunks). Flatten via:
+     ```python
+     all_embeddings = []
+     for doc_result in result.results:
+         all_embeddings.extend(doc_result.embeddings)
+     return all_embeddings
+     ```
 
 3. `rerank(query: str, docs: list[str], top_k: int) -> reranked`
 

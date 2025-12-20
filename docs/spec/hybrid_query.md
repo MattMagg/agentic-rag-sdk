@@ -179,7 +179,7 @@ Universal Query API supports query-level filters that apply automatically to all
 
 Your ingestion specs should have stored at least these payload keys for every point:
 
-* `corpus`: `"docs"` or `"code"`
+* `corpus`: `"adk_docs"` or `"adk_python"`
 * `repo`: `"google/adk-docs"` or `"google/adk-python"`
 * `path`: file path
 * `lang`: `"py" | "md" | "rst" | ...`
@@ -197,11 +197,11 @@ Unless intent is `CODE_ONLY` or `DOCS_ONLY`, apply **no corpus filter** globally
 
 If `intent == CODE_ONLY`:
 
-* global filter includes `{"key":"corpus","match":{"value":"code"}}` ([Qdrant][4])
+* global filter includes `{"key":"corpus","match":{"value":"adk_python"}}` ([Qdrant][4])
 
 If `intent == DOCS_ONLY`:
 
-* global filter includes `{"key":"corpus","match":{"value":"docs"}}` ([Qdrant][4])
+* global filter includes `{"key":"corpus","match":{"value":"adk_docs"}}` ([Qdrant][4])
 
 If `intent == TARGETED_FILE`:
 
@@ -256,7 +256,7 @@ Below are **templates** you will implement and fill at runtime. They are consist
     }
   ],
   "query": { "fusion": "rrf" },
-  "filter": { "must": [{ "key": "corpus", "match": { "value": "code" } }] },
+  "filter": { "must": [{ "key": "corpus", "match": { "value": "adk_python" } }] },
   "params": { "hnsw_ef": 256, "exact": false },
   "limit": 50,
   "with_payload": true,
@@ -277,7 +277,7 @@ Below are **templates** you will implement and fill at runtime. They are consist
     }
   ],
   "query": { "fusion": "rrf" },
-  "filter": { "must": [{ "key": "corpus", "match": { "value": "docs" } }] },
+  "filter": { "must": [{ "key": "corpus", "match": { "value": "adk_docs" } }] },
   "params": { "hnsw_ef": 256, "exact": false },
   "limit": 50,
   "with_payload": true,
@@ -307,7 +307,7 @@ Every evidence item returned must include:
 * `evidence_id`: stable ID you generate (e.g., `{point_id}:{start_line}:{end_line}`)
 * `score`: Qdrant returned score (note: with RRF fusion, scores are fusion-derived; treat as *ranking signal*, not similarity)
 * `rank`: 1..N in returned order
-* `corpus`: `"code"` or `"docs"`
+* `corpus`: `"adk_python"` or `"adk_docs"`
 * `repo`: repo identifier
 * `path`: file path
 * `commit`: commit SHA (or tag)
@@ -330,8 +330,8 @@ After receiving Qdrant results:
 3. **Quota mix (unless forced intent):**
    If `intent` is not `CODE_ONLY` / `DOCS_ONLY`, enforce:
 
-   * at least **30%** items from `corpus=code`
-   * at least **30%** items from `corpus=docs`
+   * at least **30%** items from `corpus=adk_python`
+   * at least **30%** items from `corpus=adk_docs`
    * remaining 40% can be whichever ranks higher
      This prevents “all docs” for implementation questions and “all code” for conceptual questions—because the repos are complementary.
 
@@ -461,7 +461,7 @@ Return exactly:
   "stats": {
     "candidates_received": 40,
     "returned": <top_k>,
-    "corpus_mix": {"code": n1, "docs": n2},
+    "corpus_mix": {"adk_python": n1, "adk_docs": n2},
     "routes_used": ["dense_code","dense_docs","sparse_lexical","fusion_rrf"],
     "qdrant_params": {"hnsw_ef": 256, "exact": false}
   }
@@ -491,7 +491,7 @@ You will implement these tests as part of bringing the tool up (even before Spec
    Query includes explicit constraints: “only show code from adk-python”
    Pass:
 
-* Every evidence item has `corpus=code` and `repo=google/adk-python`
+* Every evidence item has `corpus=adk_python` and `repo=google/adk-python`
 
 4. **Lexical win case**
    Query: “output_key not automatically read state sequential agent”

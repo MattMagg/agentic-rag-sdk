@@ -267,14 +267,49 @@ Use QdrantClient with cloud URL and api_key as per official client docs.
   * Validate schema matches (vector names, sizes, distances, sparse vector name exists)
   * If mismatch → fail hard with a detailed diff (do not auto-migrate in baseline)
 
-**Code outline (must implement):**
+**Python code (collection creation):**
 
-* `client.get_collections()` or `client.get_collection(collection_name)`
-* `client.create_collection(...)`
-* `client.create_payload_index(...)`
+```python
+from qdrant_client.models import (
+    Distance,
+    VectorParams,
+    SparseVectorParams,
+    SparseIndexParams,
+    HnswConfigDiff,
+)
 
-**Sparse vector params + dense vector params supported in create_collection** (official indexing doc includes python example creating collection with sparse vectors config). ([Qdrant][4])
-**Multiple named vectors supported** (collections doc). ([Qdrant][6])
+client.create_collection(
+    collection_name=collection_name,
+    vectors_config={
+        "dense_docs": VectorParams(size=2048, distance=Distance.COSINE),
+        "dense_code": VectorParams(size=2048, distance=Distance.COSINE),
+    },
+    sparse_vectors_config={
+        "sparse_lexical": SparseVectorParams(
+            index=SparseIndexParams(on_disk=False)
+        ),
+    },
+    hnsw_config=HnswConfigDiff(m=64, ef_construct=512),
+)
+```
+
+> **Note:** Named vectors use a dict for `vectors_config` where keys are vector names. Sparse vectors require `SparseIndexParams` nested inside `SparseVectorParams`.
+
+**Schema validation (for existing collections):**
+
+Query collection info and validate:
+
+```python
+info = client.get_collection(collection_name)
+vectors = info.config.params.vectors  # dict of {name: VectorParams}
+sparse = info.config.params.sparse_vectors  # dict of {name: SparseVectorParams}
+hnsw = info.config.hnsw_config  # HnswConfig with m, ef_construct
+```
+
+Validation must check:
+* Dense vector names exist with correct `size` and `distance`
+* Sparse vector name exists
+* `hnsw.m == 64` and `hnsw.ef_construct == 512`
 
 ---
 
@@ -291,11 +326,46 @@ For each field above, create the index using the proper schema types:
 * `integer` for integer fields
 * `datetime` for timestamp
 
-Qdrant lists supported field types and provides code samples for creating indexes. ([Qdrant][4])
+**Python code (payload indexing):**
+
+```python
+from qdrant_client.models import PayloadSchemaType
+
+# Check existing indexes first for idempotency
+info = client.get_collection(collection_name)
+existing_indexes = set(info.payload_schema.keys()) if info.payload_schema else set()
+
+# Create keyword indexes
+for field in ["corpus", "repo", "commit", "ref", "path", "kind", "lang", "symbol", "text_hash"]:
+    if field not in existing_indexes:
+        client.create_payload_index(
+            collection_name=collection_name,
+            field_name=field,
+            field_schema=PayloadSchemaType.KEYWORD,
+        )
+
+# Create integer indexes
+for field in ["chunk_index", "start_line", "end_line"]:
+    if field not in existing_indexes:
+        client.create_payload_index(
+            collection_name=collection_name,
+            field_name=field,
+            field_schema=PayloadSchemaType.INTEGER,
+        )
+
+# Create datetime index
+if "ingested_at" not in existing_indexes:
+    client.create_payload_index(
+        collection_name=collection_name,
+        field_name="ingested_at",
+        field_schema=PayloadSchemaType.DATETIME,
+    )
+```
 
 **Rule:** Index creation should be re-runnable:
 
-* If an index exists, no-op
+* Query `info.payload_schema.keys()` to get existing index names before creation
+* If an index exists, skip (no-op)
 * If an index exists with different type/options, fail (schema drift)
 
 ---

@@ -113,7 +113,7 @@ Return an object shaped like:
 **Step A — Normalize query** (deterministic, no LLM rewrite)
 **Step B — Compute query vectors**
 
-* `q_dense_docs`: Voyage `voyage-context-3` (query mode)
+* `q_dense_docs`: Voyage `voyage-context-3` (query mode) – must use `contextualized_embed` endpoint (single chunk) per API requirements
 * `q_dense_code`: Voyage `voyage-code-3` (query mode)
 * `q_sparse`: sparse encoder → `indices` + `values`
 
@@ -270,7 +270,12 @@ If gate fails:
 1. raise `candidate_limit` to 120 and rerun (Qdrant + rerank once)
 2. if still failing, return best effort and add warning `coverage_gate_failed`
 
-This operationalizes “docs and code are complementary” without assuming it always happens automatically.
+**Implementation Strategy (Bucket-and-Fill):**
+To satisfy the gate deterministically:
+1. Bucket reranked results into `docs` and `code`.
+2. Greedily select top 3 from each bucket.
+3. Fill remaining slots with highest scores from either bucket.
+4. If a bucket has < 3 total candidates, take all of them and warn.
 
 ---
 

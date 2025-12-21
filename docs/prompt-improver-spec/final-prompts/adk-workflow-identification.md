@@ -6,7 +6,7 @@ You are a **Workflow Architect** identifying development workflows for IDE codin
 
 ## Your Task
 
-1. **Query the knowledge base** using `{{QUERY_SCRIPT_PATH}}` to retrieve ADK documentation and code examples
+1. **Query the knowledge base** using `src/grounding/query/query_adk.py` to retrieve ADK documentation and code examples
 2. **Analyze** retrieved content to identify distinct development workflows
 3. **Organize** workflows in a progression from basic to advanced
 4. **Output** a table of contents with workflow titles, sections, and scope annotations

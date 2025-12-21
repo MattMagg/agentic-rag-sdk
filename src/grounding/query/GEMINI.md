@@ -21,9 +21,3 @@ results = search_adk("how to use tool context", top_k=12)
 - Voyage `rerank-2.5` cross-encoder reranking
 - Per-stage timing breakdown
 - Multi-query expansion (optional, `--multi-query`)
-
-## Legacy Module
-
-**File**: `retriever.py` → `retrieve_adk_evidence()`
-
-Original implementation. Use `query_adk.py` instead for better results.

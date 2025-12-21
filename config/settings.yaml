@@ -26,3 +26,77 @@ retrieval_defaults:
   prefetch_limit_sparse: ${RETRIEVAL_PREFETCH_LIMIT_SPARSE}
   final_limit: ${RETRIEVAL_FINAL_LIMIT}
   rerank_top_k: ${RERANK_TOP_K}
+
+# Ingestion configuration per SPEC-00 corpus embedding targets
+ingestion:
+  batch_size: 50  # Points per Qdrant upsert batch
+  
+  corpora:
+    adk_docs:
+      root: "corpora/adk-docs"
+      corpus: "adk_docs"
+      repo: "google/adk-docs"
+      kind: "doc"
+      ref: "main"
+      include_globs:
+        - "docs/**/*.md"
+        - "docs/**/*.mdx"
+        - "examples/python/**/*.py"
+        - "examples/python/**/*.md"
+        - "README.md"
+        - "CONTRIBUTING.md"
+      exclude_globs:
+        - "**/site/**"
+        - "**/.git/**"
+        - "**/node_modules/**"
+        - "**/__pycache__/**"
+        # Non-Python API reference
+        - "docs/api-reference/java/**"
+        - "docs/api-reference/go/**"
+        - "docs/api-reference/rest/**"
+        - "docs/api-reference/typescript/**"
+        # Non-Python example code
+        - "examples/go/**"
+        - "examples/java/**"
+        - "examples/typescript/**"
+        # Non-Python language docs (only include Python docs)
+        - "docs/get-started/go.md"
+        - "docs/get-started/java.md"
+        - "docs/get-started/typescript.md"
+        - "**/*-go.md"
+        - "**/*-java.md"
+        - "**/*-typescript.md"
+        - "**/quickstart-streaming-java.md"
+        # Theme/tooling
+        - "overrides/**"
+        - "tools/**"
+        - "docs/stylesheets/**"
+        - "llms-full.txt"
+      allowed_exts: [".md", ".mdx", ".py", ".txt"]
+      max_file_bytes: 500000
+
+    adk_python:
+      root: "corpora/adk-python"
+      corpus: "adk_python"
+      repo: "google/adk-python"
+      kind: "code"
+      ref: "main"
+      include_globs:
+        - "src/**/*.py"
+        - "tests/**/*.py"
+        - "README.md"
+        - "AGENTS.md"
+        - "pyproject.toml"
+      exclude_globs:
+        - "**/.git/**"
+        - "**/__pycache__/**"
+        - "**/.venv/**"
+        - "**/*.pyc"
+        - "**/contributing/**"
+        - ".github/**"
+        - "scripts/**"
+        - "assets/**"
+        - "llms-full.txt"
+      allowed_exts: [".py", ".md", ".toml"]
+      max_file_bytes: 500000
+

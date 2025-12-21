@@ -78,12 +78,32 @@ class RetrievalConfig(BaseModel):
     rerank_top_k: int = Field(default=12)
 
 
+class CorpusConfig(BaseModel):
+    """Configuration for a single corpus."""
+    root: str = Field(description="Path to corpus root directory")
+    corpus: str = Field(description="Corpus identifier (adk_docs or adk_python)")
+    repo: str = Field(description="Repository name (e.g., google/adk-docs)")
+    kind: str = Field(description="Content kind: doc or code")
+    ref: str = Field(default="main", description="Git ref (branch/tag)")
+    include_globs: list[str] = Field(default_factory=list, description="Include patterns")
+    exclude_globs: list[str] = Field(default_factory=list, description="Exclude patterns")
+    allowed_exts: list[str] = Field(default_factory=list, description="Allowed extensions")
+    max_file_bytes: int = Field(default=500_000, description="Max file size")
+
+
+class IngestionConfig(BaseModel):
+    """Ingestion pipeline configuration."""
+    batch_size: int = Field(default=50, description="Points per Qdrant upsert batch")
+    corpora: dict[str, CorpusConfig] = Field(default_factory=dict, description="Corpus configs")
+
+
 class Settings(BaseModel):
     """Root settings model."""
     qdrant: QdrantConfig
     voyage: VoyageConfig
     vectors: VectorConfig = Field(default_factory=VectorConfig)
     retrieval_defaults: RetrievalConfig = Field(default_factory=RetrievalConfig)
+    ingestion: IngestionConfig = Field(default_factory=IngestionConfig)
 
 
 def load_yaml_config(config_path: Path | None = None) -> dict[str, Any]:

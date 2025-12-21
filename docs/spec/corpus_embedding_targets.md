@@ -71,15 +71,25 @@ exclude_globs:
   - "**/node_modules/**"
   - "**/__pycache__/**"
   
-  # Auto-generated API reference (too verbose, low semantic value)
+  # Auto-generated API reference (non-Python, too verbose)
   - "docs/api-reference/java/**"
   - "docs/api-reference/go/**"
   - "docs/api-reference/rest/**"
+  - "docs/api-reference/typescript/**"
   
-  # Non-Python examples
+  # Non-Python example code
   - "examples/go/**"
   - "examples/java/**"
   - "examples/typescript/**"
+  
+  # Non-Python language documentation (Python-focused corpus)
+  - "docs/get-started/go.md"
+  - "docs/get-started/java.md"
+  - "docs/get-started/typescript.md"
+  - "**/*-go.md"
+  - "**/*-java.md"
+  - "**/*-typescript.md"
+  - "**/quickstart-streaming-java.md"
   
   # Theme/tooling
   - "overrides/**"
@@ -316,9 +326,17 @@ ingestion:
         - "docs/api-reference/java/**"
         - "docs/api-reference/go/**"
         - "docs/api-reference/rest/**"
+        - "docs/api-reference/typescript/**"
         - "examples/go/**"
         - "examples/java/**"
         - "examples/typescript/**"
+        - "docs/get-started/go.md"
+        - "docs/get-started/java.md"
+        - "docs/get-started/typescript.md"
+        - "**/*-go.md"
+        - "**/*-java.md"
+        - "**/*-typescript.md"
+        - "**/quickstart-streaming-java.md"
         - "overrides/**"
         - "tools/**"
         - "docs/stylesheets/**"

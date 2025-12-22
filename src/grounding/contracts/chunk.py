@@ -17,7 +17,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 
-SourceCorpus = Literal["adk_docs", "adk_python"]
+SourceCorpus = Literal["adk_docs", "adk_python", "agent_dev_docs"]
 ContentKind = Literal["code", "doc"]
 
 
@@ -34,8 +34,9 @@ class Chunk(BaseModel):
         description="Stable unique ID (SHA-1 based) - also used as Qdrant point ID"
     )
     corpus: SourceCorpus = Field(
-        description="Which corpus: adk_docs | adk_python"
+        description="Which corpus: adk_docs | adk_python | agent_dev_docs"
     )
+
     repo: str = Field(
         description="Repository identifier, e.g. 'google/adk-docs'"
     )

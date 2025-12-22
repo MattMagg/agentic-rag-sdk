@@ -97,6 +97,8 @@ user sim, scenario           → adk-quality-user-sim
 # Advanced (adk-advanced)
 visual builder               → adk-advanced-visual-builder
 thinking, planner            → adk-advanced-thinking
+dev system, development      → adk-dev-system
+software dev, e2e            → adk-dev-system
 ```
 
 ---
@@ -242,3 +244,4 @@ After completing any workflow:
 |----------|-------------|
 | `adk-advanced-visual-builder` | Visual Builder UI |
 | `adk-advanced-thinking` | ThinkingConfig and planners |
+| `adk-dev-system` | Multi-agent hierarchical development system |

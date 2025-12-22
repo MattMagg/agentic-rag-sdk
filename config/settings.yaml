@@ -100,3 +100,18 @@ ingestion:
       allowed_exts: [".py", ".md", ".toml"]
       max_file_bytes: 500000
 
+    agent_dev_docs:
+      root: "corpora/agent-dev-docs"
+      corpus: "agent_dev_docs"
+      repo: "internal/agent-dev-docs"
+      kind: "doc"  # Uses voyage-context-3
+      ref: "local"
+      include_globs:
+        - "*.md"                      # Root-level extracted PDFs
+        - "notebooks-converted/*.md"  # Converted notebook examples
+      exclude_globs:
+        - "**/.DS_Store"
+        - "**/notebooks/**"           # Skip raw notebook files
+      allowed_exts: [".md"]
+      max_file_bytes: 5000000  # 5MB for large PDF extractions
+

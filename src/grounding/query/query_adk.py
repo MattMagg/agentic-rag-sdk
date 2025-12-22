@@ -467,7 +467,8 @@ def search_adk(
 
     coverage = {
         "adk_docs": sum(1 for r in final_results if r.get("corpus") == "adk_docs"),
-        "adk_python": sum(1 for r in final_results if r.get("corpus") == "adk_python")
+        "adk_python": sum(1 for r in final_results if r.get("corpus") == "adk_python"),
+        "agent_dev_docs": sum(1 for r in final_results if r.get("corpus") == "agent_dev_docs")
     }
 
     return {
@@ -500,7 +501,7 @@ def main():
     parser.add_argument("--no-rerank", action="store_true", help="Disable reranking")
     parser.add_argument("--first-stage-k", type=int, default=80, help="Candidates per prefetch lane")
     parser.add_argument("--rerank-candidates", type=int, default=60, help="Candidates to reranker")
-    parser.add_argument("--corpus", choices=["adk_docs", "adk_python"], help="Filter by corpus")
+    parser.add_argument("--corpus", choices=["adk_docs", "adk_python", "agent_dev_docs"], help="Filter by corpus")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
     args = parser.parse_args()
 

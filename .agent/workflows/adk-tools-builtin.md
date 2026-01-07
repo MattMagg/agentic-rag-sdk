@@ -47,7 +47,7 @@ from google.adk.tools import google_search
 
 root_agent = LlmAgent(
     name="research_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You are a research assistant. 
     Use Google Search to find current information when answering questions.
     Always cite your sources.""",
@@ -70,7 +70,7 @@ from google.adk.tools import AgentTool
 # Create a dedicated search sub-agent
 search_agent = LlmAgent(
     name="search_sub_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Search the web and return relevant information.",
     tools=[google_search]
 )
@@ -81,7 +81,7 @@ search_tool = AgentTool.create(agent=search_agent)
 # Main agent with both custom and search tools
 root_agent = LlmAgent(
     name="main_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You help users with various tasks.",
     tools=[search_tool, my_custom_tool]
 )
@@ -112,7 +112,7 @@ from google.adk.tools import code_execution
 
 root_agent = LlmAgent(
     name="calculator_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You are a helpful assistant that can perform calculations.
     Use code execution for any mathematical operations or data processing.""",
     tools=[code_execution]
@@ -150,7 +150,7 @@ code_executor = AgentEngineCodeExecutor(
 
 root_agent = LlmAgent(
     name="data_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You process data using Python code.",
     code_executor=code_executor  # Note: uses code_executor, not tools
 )
@@ -181,7 +181,7 @@ search_tool = VertexAiSearchTool(
 
 root_agent = LlmAgent(
     name="enterprise_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You are an enterprise knowledge assistant.
     Search the company knowledge base to answer questions accurately.
     Always base your answers on the retrieved documents.""",
@@ -236,7 +236,7 @@ from google.adk.tools import google_search, code_execution
 # Research agent
 research_agent = LlmAgent(
     name="researcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Find relevant data using web search.",
     tools=[google_search]
 )
@@ -244,7 +244,7 @@ research_agent = LlmAgent(
 # Analysis agent  
 analysis_agent = LlmAgent(
     name="analyst",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Analyze data using Python code.",
     tools=[code_execution]
 )
@@ -275,7 +275,7 @@ def submit_ticket(title: str, description: str, priority: str) -> dict:
 # Combine both
 root_agent = LlmAgent(
     name="it_support_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You are an IT support agent.
     Search the knowledge base for solutions first.
     If no solution found, create a support ticket.""",

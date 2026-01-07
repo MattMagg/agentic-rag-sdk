@@ -94,7 +94,7 @@ toolset = OpenAPIToolset.from_openapi_spec(
 # Add to agent
 agent = LlmAgent(
     name="api_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     tools=toolset.tools,
 )
 ```
@@ -115,7 +115,7 @@ calendar_tools = calendar_tool_set(
 
 agent = LlmAgent(
     name="calendar_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     tools=calendar_tools,
 )
 ```

@@ -99,7 +99,7 @@ approval_tool = LongRunningFunctionTool(func=request_human_approval)
 # Add to agent
 root_agent = LlmAgent(
     name="approval_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You help users with actions that require approval.",
     tools=[approval_tool]
 )
@@ -243,7 +243,7 @@ approval_tool = LongRunningFunctionTool(func=request_approval)
 
 agent = LlmAgent(
     name="secure_action_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You help users perform secure actions.
     Always use request_approval for delete or modify operations.
     Wait for approval before confirming the action is complete.""",

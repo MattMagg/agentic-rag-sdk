@@ -72,7 +72,7 @@ adk_search_tool = LangchainTool(
 from google.adk.agents import LlmAgent
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="search_agent",
     instruction="""You are a helpful assistant with web search capabilities.
     Use the search tool to find current information for user queries.""",
@@ -123,7 +123,7 @@ adk_serper_tool = CrewaiTool(
 from google.adk.agents import LlmAgent
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="crewai_agent",
     instruction="""You are a research assistant with web search capabilities.
     Use the serper search tool to find information.""",
@@ -229,7 +229,7 @@ serper_tool = CrewaiTool(
 
 # Create agent with both tools
 root_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="research_agent",
     instruction="""You are a research assistant with multiple search tools.
     - Use tavily_search for detailed, comprehensive results

@@ -140,7 +140,7 @@ Three match types available: `EXACT`, `IN_ORDER`, `ANY_ORDER`:
     "final_response_match_v2": {
       "threshold": 0.8,
       "judge_model_options": {
-        "judge_model": "gemini-2.5-flash",
+        "judge_model": "gemini-3-flash-preview",
         "num_samples": 5
       }
     }
@@ -156,7 +156,7 @@ Three match types available: `EXACT`, `IN_ORDER`, `ANY_ORDER`:
     "rubric_based_final_response_quality_v1": {
       "threshold": 0.8,
       "judge_model_options": {
-        "judge_model": "gemini-2.5-flash",
+        "judge_model": "gemini-3-flash-preview",
         "num_samples": 5
       },
       "rubrics": [
@@ -186,7 +186,7 @@ Three match types available: `EXACT`, `IN_ORDER`, `ANY_ORDER`:
     "rubric_based_tool_use_quality_v1": {
       "threshold": 1.0,
       "judge_model_options": {
-        "judge_model": "gemini-2.5-flash",
+        "judge_model": "gemini-3-flash-preview",
         "num_samples": 5
       },
       "rubrics": [
@@ -210,7 +210,7 @@ Three match types available: `EXACT`, `IN_ORDER`, `ANY_ORDER`:
     "hallucinations_v1": {
       "threshold": 0.8,
       "judge_model_options": {
-        "judge_model": "gemini-2.5-flash"
+        "judge_model": "gemini-3-flash-preview"
       },
       "evaluate_intermediate_nl_responses": true
     }

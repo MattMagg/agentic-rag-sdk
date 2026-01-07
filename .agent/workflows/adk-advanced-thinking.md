@@ -60,7 +60,7 @@ planner = BuiltInPlanner(thinking_config=thinking_config)
 
 # Attach planner to agent
 agent = Agent(
-    model="gemini-2.5-flash",  # Must support thinking
+    model="gemini-3-flash-preview",  # Must support thinking
     name="reasoning_agent",
     instruction="You are an analytical agent that thinks through problems carefully.",
     planner=planner,
@@ -89,7 +89,7 @@ planner = BuiltInPlanner(thinking_config=thinking_config)
 
 # Step 3: Create agent with planner
 agent = Agent(
-    model="gemini-2.5-pro-preview-03-25",
+    model="gemini-3-pro-preview",
     name="weather_agent",
     instruction="You are an agent that provides weather information",
     planner=planner,
@@ -122,7 +122,7 @@ from google.adk.planners import PlanReActPlanner
 
 # Create agent with PlanReActPlanner
 agent = Agent(
-    model="gemini-2.0-flash",  # Works with any model
+    model="gemini-3-flash-preview",  # Works with any model
     name="planning_agent",
     instruction="You are a helpful research assistant.",
     planner=PlanReActPlanner(),

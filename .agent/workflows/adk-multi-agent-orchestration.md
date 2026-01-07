@@ -59,21 +59,21 @@ Run independent tasks concurrently, then aggregate results:
 # Parallel data fetchers
 source1_fetcher = LlmAgent(
     name="source1_fetcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Fetch data from source 1.",
     output_key="source1_data"
 )
 
 source2_fetcher = LlmAgent(
     name="source2_fetcher", 
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Fetch data from source 2.",
     output_key="source2_data"
 )
 
 source3_fetcher = LlmAgent(
     name="source3_fetcher",
-    model="gemini-2.0-flash", 
+    model="gemini-3-flash-preview", 
     instruction="Fetch data from source 3.",
     output_key="source3_data"
 )
@@ -87,7 +87,7 @@ data_gatherer = ParallelAgent(
 # Aggregator runs after all parallel tasks complete
 aggregator = LlmAgent(
     name="aggregator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Read data from state['source1_data'], state['source2_data'], 
     and state['source3_data']. Synthesize into a unified report."""
 )
@@ -111,7 +111,7 @@ Use `LoopAgent` for progressive improvement patterns with explicit termination.
 # Generator agent - creates/refines content
 generator = LlmAgent(
     name="generator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Read state['requirements'] and state.get('feedback', '').
     Generate/refine content meeting requirements.""",
     output_key="draft"
@@ -120,7 +120,7 @@ generator = LlmAgent(
 # Critic agent - evaluates quality
 critic = LlmAgent(
     name="critic",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Evaluate state['draft'] against state['requirements'].
     Output either:
     - 'APPROVED' if requirements are met

@@ -70,7 +70,7 @@ Edit `my_agent/root_agent.yaml`:
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/google/adk-python/refs/heads/main/src/google/adk/agents/config_schemas/AgentConfig.json
 name: assistant_agent
-model: gemini-2.5-flash
+model: gemini-3-flash-preview
 description: A helper agent that can answer users' questions.
 instruction: You are an agent to help answer users' various questions.
 ```
@@ -80,7 +80,7 @@ instruction: You are an agent to help answer users' various questions.
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/google/adk-python/refs/heads/main/src/google/adk/agents/config_schemas/AgentConfig.json
 name: search_agent
-model: gemini-2.0-flash
+model: gemini-3-flash-preview
 description: An agent that performs Google search queries.
 instruction: You are an agent whose job is to perform Google search queries and answer questions about the results.
 tools:
@@ -92,7 +92,7 @@ tools:
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/google/adk-python/refs/heads/main/src/google/adk/agents/config_schemas/AgentConfig.json
 agent_class: LlmAgent
-model: gemini-2.5-flash
+model: gemini-3-flash-preview
 name: prime_agent
 description: Handles checking if numbers are prime.
 instruction: |
@@ -108,7 +108,7 @@ tools:
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/google/adk-python/refs/heads/main/src/google/adk/agents/config_schemas/AgentConfig.json
 agent_class: LlmAgent
-model: gemini-2.5-flash
+model: gemini-3-flash-preview
 name: root_agent
 description: Learning assistant that provides tutoring in code and math.
 instruction: |
@@ -132,7 +132,7 @@ sub_agents:
 | Field | Type | Description |
 |-------|------|-------------|
 | `name` | string | Agent identifier |
-| `model` | string | LLM model (e.g., `gemini-2.5-flash`) |
+| `model` | string | LLM model (e.g., `gemini-3-flash-preview`) |
 | `instruction` | string | System prompt defining agent behavior |
 
 ### Optional Fields
@@ -164,7 +164,7 @@ sub_agents:
   
   # Inline definition
   - name: inline_agent
-    model: gemini-2.0-flash
+    model: gemini-3-flash-preview
     instruction: You are a specialized sub-agent.
 ```
 

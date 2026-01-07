@@ -91,7 +91,7 @@ from google.adk.agents import Agent
 from google.adk.tools.preload_memory_tool import PreloadMemoryTool
 
 agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="memory_agent",
     instruction="Answer questions using past conversation context.",
     tools=[PreloadMemoryTool()]
@@ -105,7 +105,7 @@ from google.adk.agents import Agent
 from google.adk.tools import load_memory
 
 agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="memory_agent",
     instruction="Use load_memory to search past conversations when relevant.",
     tools=[load_memory]
@@ -135,7 +135,7 @@ async def auto_save_callback(callback_context):
     )
 
 agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="auto_memory_agent",
     instruction="...",
     tools=[PreloadMemoryTool()],
@@ -169,7 +169,7 @@ from google.adk.tools import google_search
 
 agent = Agent(
     name="search_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3-flash-preview",
     instruction="Answer questions using Google Search. Always cite sources.",
     tools=[google_search]
 )
@@ -204,7 +204,7 @@ DATASTORE_ID = "projects/PROJECT/locations/global/collections/default_collection
 
 agent = Agent(
     name="enterprise_search_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3-flash-preview",
     instruction="Answer questions from company documents. Cite sources.",
     tools=[VertexAiSearchTool(data_store_id=DATASTORE_ID)]
 )
@@ -241,7 +241,7 @@ rag_tool = VertexAiRagRetrieval(
 )
 
 agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="rag_agent",
     instruction="Answer questions using retrieved documents.",
     tools=[rag_tool]  # Must be the ONLY tool
@@ -283,7 +283,7 @@ from google.adk.tools import google_search
 from google.adk.tools.preload_memory_tool import PreloadMemoryTool
 
 agent = Agent(
-    model="gemini-2.5-flash",
+    model="gemini-3-flash-preview",
     name="informed_agent",
     instruction="""
     Answer questions using:

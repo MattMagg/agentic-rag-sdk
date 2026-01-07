@@ -33,7 +33,7 @@ ADK multi-agent systems are built on **parent-child relationships**:
 # Basic parent-child structure
 parent_agent = LlmAgent(
     name="coordinator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Route requests to appropriate specialists",
     sub_agents=[
         specialist_agent_1,
@@ -64,14 +64,14 @@ When sub-agents are present, ADK automatically enables `transfer_to_agent` via t
 # Greeting specialist
 greeting_agent = LlmAgent(
     name="greeting_specialist",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Handle greetings and introductions warmly."
 )
 
 # Weather specialist
 weather_agent = LlmAgent(
     name="weather_specialist",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Provide weather information using available tools.",
     tools=[get_weather]
 )
@@ -79,7 +79,7 @@ weather_agent = LlmAgent(
 # Coordinator with transfer capability
 coordinator = LlmAgent(
     name="coordinator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You are a dispatcher. Based on user requests:
     - Transfer to 'greeting_specialist' for greetings
     - Transfer to 'weather_specialist' for weather queries
@@ -108,19 +108,19 @@ from google.adk.agents import SequentialAgent
 # Define pipeline stages
 research_agent = LlmAgent(
     name="researcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Research the topic and save findings to state['research']."
 )
 
 writer_agent = LlmAgent(
     name="writer", 
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Read state['research'] and write a summary."
 )
 
 reviewer_agent = LlmAgent(
     name="reviewer",
-    model="gemini-2.0-flash", 
+    model="gemini-3-flash-preview", 
     instruction="Review the summary and provide feedback."
 )
 
@@ -141,14 +141,14 @@ from google.adk.agents import ParallelAgent
 # Independent data fetchers
 weather_fetcher = LlmAgent(
     name="weather_fetcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Fetch current weather and save to state['weather'].",
     tools=[get_weather]
 )
 
 news_fetcher = LlmAgent(
     name="news_fetcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Fetch top news and save to state['news'].",
     tools=[get_news]
 )
@@ -179,7 +179,7 @@ from google.adk.agents import LoopAgent
 # Agent that refines until satisfied
 refinement_agent = LlmAgent(
     name="refiner",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Review and improve the content in state['draft'].
     If quality is acceptable, call escalate() to exit the loop.
     Otherwise, update state['draft'] with improvements."""
@@ -205,7 +205,7 @@ from google.adk.tools import AgentTool
 # Specialist agent to be called as a tool
 image_generator = LlmAgent(
     name="image_generator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Generate an image based on the provided prompt.",
     tools=[image_generation_tool]
 )
@@ -216,7 +216,7 @@ image_tool = AgentTool(agent=image_generator)
 # Parent agent uses it like any other tool
 artist_agent = LlmAgent(
     name="artist",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Create a prompt and use the ImageGen tool to create images.",
     tools=[image_tool]
 )
@@ -236,7 +236,7 @@ All agents in a hierarchy share the same session state:
 # Agent 1: Writes to state
 researcher = LlmAgent(
     name="researcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Research the topic and store findings.
     Save your research to state using: state['findings'] = your_findings"""
 )
@@ -244,7 +244,7 @@ researcher = LlmAgent(
 # Agent 2: Reads from state
 writer = LlmAgent(
     name="writer",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Write a report based on research findings.
     Read the research from: state['findings']"""
 )
@@ -283,7 +283,7 @@ Central agent routes to specialists:
 ```python
 coordinator = LlmAgent(
     name="coordinator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Analyze requests and route to:
     - billing_agent for payment issues
     - tech_support_agent for technical problems

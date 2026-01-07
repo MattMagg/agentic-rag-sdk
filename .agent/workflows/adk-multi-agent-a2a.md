@@ -43,7 +43,7 @@ Define your agent with tools and instructions as usual:
 from google.adk.agents import Agent
 
 root_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-3-flash-preview',
     name='my_service_agent',
     instruction="""You are a specialized service agent.
     Handle requests using your available tools.""",
@@ -128,7 +128,7 @@ Add the remote agent to your root agent's sub-agents:
 from google.adk.agents import Agent
 
 root_agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="orchestrator_agent",
     instruction="""You orchestrate tasks between local and remote agents.
     Delegate specialized tasks to the remote_service agent.""",
@@ -244,7 +244,7 @@ def check_prime(nums: list[int]) -> str:
     return "\n".join(results)
 
 root_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-3-flash-preview',
     name='prime_checker_agent',
     instruction="Check if numbers are prime using the check_prime tool.",
     tools=[check_prime],
@@ -273,7 +273,7 @@ def roll_die(sides: int) -> int:
     return random.randint(1, sides)
 
 root_agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="orchestrator",
     instruction="""You coordinate dice rolling and prime checking.
     1. Use roll_die for dice operations

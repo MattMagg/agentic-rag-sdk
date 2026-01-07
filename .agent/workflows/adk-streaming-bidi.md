@@ -30,7 +30,7 @@ Use `StreamingMode.BIDI` when:
 ## Prerequisites
 
 - [ ] ADK installed with streaming support
-- [ ] Gemini 2.x Live model (e.g., `gemini-2.5-flash-native-audio-preview-09-2025`)
+- [ ] Gemini 2.x Live model (e.g., `gemini-3-flash-preview-native-audio-preview-09-2025`)
 - [ ] WebSocket server framework (e.g., FastAPI)
 
 ```python
@@ -168,7 +168,7 @@ app = FastAPI()
 
 agent = Agent(
     name="voice_assistant",
-    model="gemini-2.5-flash-native-audio-preview-09-2025",
+    model="gemini-3-flash-preview-native-audio-preview-09-2025",
     instruction="You are a helpful voice assistant."
 )
 session_service = InMemorySessionService()

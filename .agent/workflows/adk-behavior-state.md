@@ -157,17 +157,17 @@ from google.adk.agents import LlmAgent
 # Parent agent with initial state
 parent_agent = LlmAgent(
     name="coordinator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You coordinate between specialist agents.",
     sub_agents=[
         LlmAgent(
             name="researcher",
-            model="gemini-2.0-flash",
+            model="gemini-3-flash-preview",
             instruction="You research topics.",
         ),
         LlmAgent(
             name="writer",
-            model="gemini-2.0-flash",
+            model="gemini-3-flash-preview",
             instruction="You write content.",
         ),
     ]
@@ -214,7 +214,7 @@ from google.adk.agents import LlmAgent
 
 agent = LlmAgent(
     name="summarizer",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Summarize the provided text.",
     output_key="last_summary",  # Auto-saves output to state["last_summary"]
 )

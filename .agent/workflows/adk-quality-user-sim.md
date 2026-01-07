@@ -121,7 +121,7 @@ Override default user simulator behavior in your eval config:
     "safety_v1": { "threshold": 0.8 }
   },
   "user_simulator_config": {
-    "model": "gemini-2.5-flash",
+    "model": "gemini-3-flash-preview",
     "model_configuration": {
       "thinking_config": {
         "include_thoughts": true,
@@ -135,7 +135,7 @@ Override default user simulator behavior in your eval config:
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `model` | `gemini-2.5-flash` | Model backing the simulator |
+| `model` | `gemini-3-flash-preview` | Model backing the simulator |
 | `model_configuration` | See above | GenerateContentConfig for model behavior |
 | `max_allowed_invocations` | `20` | Max user-agent interactions before forced termination |
 

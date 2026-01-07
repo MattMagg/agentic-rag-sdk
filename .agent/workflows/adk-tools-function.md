@@ -63,7 +63,7 @@ from google.adk.agents import LlmAgent
 
 root_agent = LlmAgent(
     name="weather_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You are a helpful weather assistant.",
     tools=[get_weather]  # ADK auto-wraps as FunctionTool
 )
@@ -80,7 +80,7 @@ weather_tool = FunctionTool(func=get_weather)
 
 root_agent = LlmAgent(
     name="weather_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You are a helpful weather assistant.",
     tools=[weather_tool]
 )
@@ -178,7 +178,7 @@ def validate_city_input(
 
 root_agent = LlmAgent(
     name="weather_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You are a weather assistant.",
     tools=[get_weather],
     before_tool_callback=validate_city_input
@@ -205,7 +205,7 @@ def log_tool_result(
 
 root_agent = LlmAgent(
     name="weather_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     tools=[get_weather],
     after_tool_callback=log_tool_result
 )
@@ -283,7 +283,7 @@ math_tools = Toolset(
 
 root_agent = LlmAgent(
     name="math_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     tools=[math_tools]
 )
 ```

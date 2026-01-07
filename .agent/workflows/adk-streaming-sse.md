@@ -211,7 +211,7 @@ Use when:
 
 **Gemini 2.x Series (SSE and BIDI):**
 
-- `gemini-2.0-flash` and variants
+- `gemini-3-flash-preview` and variants
 
 ---
 
@@ -226,7 +226,7 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
-agent = Agent(name='test', model='gemini-2.0-flash', instruction='Be helpful')
+agent = Agent(name='test', model='gemini-3-flash-preview', instruction='Be helpful')
 session_service = InMemorySessionService()
 session_service.create_session(app_name='test', user_id='u1', session_id='s1')
 runner = Runner(app_name='test', agent=agent, session_service=session_service)

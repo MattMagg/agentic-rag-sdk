@@ -219,7 +219,7 @@ from google.adk.agents import LlmAgent, SequentialAgent
 # Agent that requests human approval
 approval_agent = LlmAgent(
     name="approval_requester",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You request approval for high-value operations.
     Use the request_approval tool with the operation details.""",
     tools=[request_approval_tool],
@@ -228,7 +228,7 @@ approval_agent = LlmAgent(
 # Main agent that performs operations after approval
 executor_agent = LlmAgent(
     name="executor", 
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You execute approved operations.
     Check state for 'approved' before proceeding.""",
     tools=[execute_operation_tool],

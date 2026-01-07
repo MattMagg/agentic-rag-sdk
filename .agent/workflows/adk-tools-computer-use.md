@@ -14,7 +14,7 @@ Enable your ADK agent to interact with computer environments (browser or desktop
 ## Prerequisites
 
 - [ ] ADK Python v1.17.0+ installed
-- [ ] Gemini model with computer use support (e.g., `gemini-2.0-flash`)
+- [ ] Gemini model with computer use support (e.g., `gemini-3-flash-preview`)
 - [ ] Custom `BaseComputer` implementation for your target environment
 
 ---
@@ -157,7 +157,7 @@ computer_toolset = ComputerUseToolset(computer=my_computer)
 from google.adk.agents import LlmAgent
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="browser_agent",
     instruction="""You are an AI assistant that can control a web browser.
     You can:
@@ -192,7 +192,7 @@ async def main():
         toolset = ComputerUseToolset(computer=my_computer)
         
         agent = LlmAgent(
-            model="gemini-2.0-flash",
+            model="gemini-3-flash-preview",
             name="browser_agent",
             instruction="Control the browser to help users.",
             tools=[toolset]

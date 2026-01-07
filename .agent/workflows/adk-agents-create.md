@@ -25,13 +25,13 @@ Every agent requires:
 | Parameter | Required | Purpose |
 |-----------|----------|---------|
 | `name` | ✓ | Unique identifier (avoid reserved name `user`) |
-| `model` | ✓ | LLM model string (e.g., `gemini-2.0-flash`) |
+| `model` | ✓ | LLM model string (e.g., `gemini-3-flash-preview`) |
 | `description` | Recommended | Used by other agents for routing decisions |
 | `instruction` | Recommended | Defines behavior, constraints, output format |
 
 ```python
 capital_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="capital_agent",
     description="Answers user questions about the capital city of a given country.",
     instruction="""You are an agent that provides the capital city of a country.
@@ -79,7 +79,7 @@ Pass a string directly:
 
 ```python
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="support_agent",
     instruction="""You are a customer support agent.
 - Be polite and helpful
@@ -95,7 +95,7 @@ Use `{variable}` syntax to inject session state values:
 
 ```python
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="personalized_agent",
     instruction="""You are helping {user_name}.
 Their account type is: {account_type}
@@ -120,7 +120,7 @@ The `description` field is used by **other LLM agents** to decide if they should
 ```python
 # Good: Specific and differentiating
 billing_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="billing_agent",
     description="Handles inquiries about current billing statements and payment history.",
     # ...
@@ -128,7 +128,7 @@ billing_agent = LlmAgent(
 
 # Bad: Too vague
 billing_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="billing_agent",
     description="Billing agent",  # Not helpful for routing
     # ...
@@ -147,7 +147,7 @@ Control LLM generation parameters:
 from google.genai import types
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="deterministic_agent",
     generate_content_config=types.GenerateContentConfig(
         temperature=0.2,  # More deterministic
@@ -174,7 +174,7 @@ class CapitalOutput(BaseModel):
     capital: str = Field(description="The capital of the country.")
 
 structured_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="structured_agent",
     instruction='Respond ONLY with JSON: {"capital": "capital_name"}',
     output_schema=CapitalOutput,  # Enforce JSON output
@@ -187,7 +187,7 @@ structured_agent = LlmAgent(
 ```python
 # Stateless agent (no conversation history)
 stateless_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="stateless_agent",
     include_contents='none',  # No prior history
     # ...

@@ -26,7 +26,7 @@ Use the `adk create` command to scaffold your project:
 adk create my_agent
 
 # With specific model
-adk create my_agent --model gemini-2.0-flash
+adk create my_agent --model gemini-3-flash-preview
 
 # For YAML-based agent (no Python code)
 adk create --type=config my_agent
@@ -36,7 +36,7 @@ adk create --type=config my_agent
 
 | Option | Description | Example |
 |--------|-------------|---------|
-| `--model` | Specify the LLM model | `--model gemini-2.5-pro` |
+| `--model` | Specify the LLM model | `--model gemini-3-pro-preview` |
 | `--type` | Project type (`code` or `config`) | `--type=config` |
 | `--api-key` | Set API key directly | `--api-key=YOUR_KEY` |
 | `--project` | GCP project ID | `--project=my-gcp-project` |
@@ -76,7 +76,7 @@ def get_current_time(city: str) -> dict:
     return {"status": "success", "city": city, "time": "10:30 AM"}
 
 root_agent = Agent(
-    model='gemini-2.0-flash',
+    model='gemini-3-flash-preview',
     name='root_agent',
     description="Tells the current time in a specified city.",
     instruction="You are a helpful assistant that tells the current time in cities. Use the 'get_current_time' tool for this purpose.",
@@ -159,7 +159,7 @@ def my_tool(input: str) -> dict:
 
 # Define the root agent (required name)
 root_agent = LlmAgent(
-    model='gemini-2.0-flash',
+    model='gemini-3-flash-preview',
     name='my_agent',
     description='Brief description for multi-agent routing.',
     instruction='''
@@ -174,7 +174,7 @@ root_agent = LlmAgent(
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `model` | Yes | Model identifier (e.g., `gemini-2.0-flash`) |
+| `model` | Yes | Model identifier (e.g., `gemini-3-flash-preview`) |
 | `name` | Yes | Agent identifier |
 | `instruction` | Yes | System prompt defining behavior |
 | `description` | No | For multi-agent routing |
@@ -185,10 +185,10 @@ root_agent = LlmAgent(
 
 | Model | Use Case |
 |-------|----------|
-| `gemini-2.0-flash` | Fast responses, general use |
-| `gemini-2.5-pro` | Complex reasoning, accuracy |
-| `gemini-2.5-flash` | Balanced performance |
-| `gemini-2.0-flash-live-001` | Voice/video streaming |
+| `gemini-3-flash-preview` | Fast responses, general use |
+| `gemini-3-pro-preview` | Complex reasoning, accuracy |
+| `gemini-3-flash-preview` | Balanced performance |
+| `gemini-3-flash-preview-live-001` | Voice/video streaming |
 
 ---
 
@@ -224,7 +224,7 @@ Advanced model configuration:
 from google.genai import types
 
 root_agent = LlmAgent(
-    model='gemini-2.0-flash',
+    model='gemini-3-flash-preview',
     name='my_agent',
     instruction='You are helpful.',
     generate_content_config=types.GenerateContentConfig(

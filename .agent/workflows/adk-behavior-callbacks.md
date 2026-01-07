@@ -189,7 +189,7 @@ from google.adk.agents import LlmAgent
 
 agent = LlmAgent(
     name="my_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You are a helpful assistant.",
     
     # Agent-level callbacks

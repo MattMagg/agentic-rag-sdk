@@ -211,7 +211,7 @@ async def filter_sensitive_output(
 # Create agent with guardrails
 agent = LlmAgent(
     name="guarded_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You are a helpful assistant.",
     before_model_callback=block_harmful_input,
     after_model_callback=filter_sensitive_output,
@@ -255,7 +255,7 @@ generate_config = types.GenerateContentConfig(
 
 agent = LlmAgent(
     name="safe_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     generate_content_config=generate_config,
     before_model_callback=block_harmful_input,
 )

@@ -178,7 +178,7 @@ from google.adk.agents import Agent
 
 agent = Agent(
     name="my_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You are a helpful assistant.",
     tools=[my_tool],
 )

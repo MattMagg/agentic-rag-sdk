@@ -90,7 +90,7 @@ mcp_toolset = McpToolset(
 from google.adk.agents import LlmAgent
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="mcp_agent",
     instruction="""You are an assistant with access to external tools 
     via MCP. Use these tools to help users with their requests.""",
@@ -161,7 +161,7 @@ mcp_tools = McpToolset(connection_params=filesystem_server)
 
 # Create agent with MCP tools
 root_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="filesystem_agent",
     instruction="""You can read and write files using the filesystem tools.
     Always confirm with the user before modifying files.""",

@@ -113,7 +113,7 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.preload_memory_tool import PreloadMemoryTool
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="MemoryAgent",
     instruction="Answer questions using past conversation context.",
     tools=[PreloadMemoryTool()]
@@ -129,7 +129,7 @@ from google.adk.agents import LlmAgent
 from google.adk.tools import load_memory
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="MemoryAgent",
     instruction="Use load_memory tool when past context is needed.",
     tools=[load_memory]
@@ -164,7 +164,7 @@ async def auto_save_memory(callback_context):
     )
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="AutoMemoryAgent",
     instruction="Answer questions.",
     tools=[PreloadMemoryTool()],

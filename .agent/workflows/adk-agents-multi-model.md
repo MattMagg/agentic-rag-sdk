@@ -286,7 +286,7 @@ from google.adk.models.lite_llm import LiteLlm
 
 # Fast, cheap model for routing
 router_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="router",
     description="Routes requests to specialized agents",
     instruction="Route user requests to the appropriate agent.",
@@ -310,7 +310,7 @@ creative_agent = LlmAgent(
 
 # Combine with sub-agents
 router_agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="router",
     instruction="Route to the appropriate specialist.",
     sub_agents=[reasoning_agent, creative_agent],

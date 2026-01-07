@@ -157,7 +157,7 @@ YourAgent/
 
 ```yaml
 name: my_agent
-model: gemini-2.5-flash
+model: gemini-3-flash-preview
 description: "A helpful assistant"
 instruction: |
   You are a helpful assistant that...

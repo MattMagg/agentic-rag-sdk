@@ -269,7 +269,7 @@ from google.adk.plugins import SaveFilesAsArtifactsPlugin
 # Add to agent plugins
 agent = LlmAgent(
     name="document_processor",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Process uploaded documents.",
     plugins=[SaveFilesAsArtifactsPlugin()],
 )

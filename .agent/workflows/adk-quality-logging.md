@@ -99,7 +99,7 @@ from google.adk.agents import Agent
 # Create agent with logging plugin
 agent = Agent(
     name="logged_agent",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="You are a helpful assistant.",
     plugins=[LoggingPlugin()],
 )

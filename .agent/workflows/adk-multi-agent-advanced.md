@@ -47,7 +47,7 @@ ADK's `AutoFlow` handles dynamic agent transfers via `transfer_to_agent()`. Cont
 # Restricted transfer: can only transfer to sub-agents
 restricted_coordinator = LlmAgent(
     name="coordinator",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Route to specialists. Cannot return to supervisor.",
     disallow_transfer_to_parent=True,
     disallow_transfer_to_peers=True,
@@ -58,7 +58,7 @@ restricted_coordinator = LlmAgent(
 # (no transfer capability at all)
 isolated_agent = LlmAgent(
     name="isolated_worker",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Complete tasks independently. No delegation.",
     disallow_transfer_to_parent=True,
     disallow_transfer_to_peers=True
@@ -82,26 +82,26 @@ Multi-level agent trees for complex goal decomposition using `AgentTool`:
 # Level 2: Specialists (workers)
 web_searcher = LlmAgent(
     name="web_searcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     description="Searches the web for factual information."
 )
 
 summarizer = LlmAgent(
     name="summarizer", 
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     description="Condenses text into concise summaries."
 )
 
 fact_checker = LlmAgent(
     name="fact_checker",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     description="Verifies claims for accuracy."
 )
 
 # Level 1: Team leads (wrap specialists as tools)
 research_lead = LlmAgent(
     name="research_lead",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""You manage research tasks.
     Use WebSearcher for information gathering.
     Use Summarizer to condense findings.""",
@@ -113,7 +113,7 @@ research_lead = LlmAgent(
 
 verification_lead = LlmAgent(
     name="verification_lead",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Verify all claims using the FactChecker tool.",
     tools=[AgentTool(agent=fact_checker)]
 )
@@ -121,7 +121,7 @@ verification_lead = LlmAgent(
 # Level 0: Project manager  
 project_manager = LlmAgent(
     name="project_manager",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Break down user requests into research and verification.
     Delegate to ResearchLead for gathering, VerificationLead for fact-checking.""",
     tools=[
@@ -147,7 +147,7 @@ Real applications often require mixing multiple patterns:
 # Stage 1: Plan research
 research_planner = LlmAgent(
     name="research_planner",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Analyze the topic and plan research approach.",
     output_key="research_plan"
 )
@@ -155,19 +155,19 @@ research_planner = LlmAgent(
 # Stage 2: Parallel research across sources
 academic_researcher = LlmAgent(
     name="academic_researcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Research academic sources.",
     output_key="academic_findings"
 )
 industry_researcher = LlmAgent(
     name="industry_researcher",
-    model="gemini-2.0-flash", 
+    model="gemini-3-flash-preview", 
     instruction="Research industry sources.",
     output_key="industry_findings"
 )
 news_researcher = LlmAgent(
     name="news_researcher",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Research news sources.",
     output_key="news_findings"
 )
@@ -180,7 +180,7 @@ parallel_research = ParallelAgent(
 # Stage 3: Synthesize findings
 synthesizer = LlmAgent(
     name="synthesizer",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="""Combine findings from state['academic_findings'], 
     state['industry_findings'], and state['news_findings'].""",
     output_key="draft_report"
@@ -189,7 +189,7 @@ synthesizer = LlmAgent(
 # Stage 4: Quality review loop
 quality_reviewer = LlmAgent(
     name="quality_reviewer",
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     instruction="Review state['draft_report']. Output 'APPROVED' or 'REVISE: <feedback>'.",
     output_key="review_status"
 )

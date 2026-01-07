@@ -189,7 +189,7 @@ def stop_streaming(function_name: str):
     pass
 
 agent = Agent(
-    model="gemini-2.5-flash-native-audio-preview-09-2025",
+    model="gemini-3-flash-preview-native-audio-preview-09-2025",
     name="video_agent",
     instruction="Monitor video streams using provided tools.",
     tools=[monitor_video_stream, FunctionTool(stop_streaming)]
@@ -202,8 +202,8 @@ agent = Agent(
 
 | Architecture | Description | Models |
 |--------------|-------------|--------|
-| **Native Audio** | End-to-end audio processing, natural prosody | `gemini-2.5-flash-native-audio-preview-09-2025` |
-| **Half-Cascade** | Audio input + TTS output, more reliable tool execution | `gemini-2.0-flash-live-001` |
+| **Native Audio** | End-to-end audio processing, natural prosody | `gemini-3-flash-preview-native-audio-preview-09-2025` |
+| **Half-Cascade** | Audio input + TTS output, more reliable tool execution | `gemini-3-flash-preview-live-001` |
 
 **Use Native Audio for**: Natural conversations, advanced features (affective dialog, proactivity)  
 **Use Half-Cascade for**: Production reliability with tool execution
@@ -236,7 +236,7 @@ from google.adk.sessions import InMemorySessionService
 
 # Create agent
 agent = Agent(
-    model="gemini-2.5-flash-native-audio-preview-09-2025",
+    model="gemini-3-flash-preview-native-audio-preview-09-2025",
     name="voice_agent",
     instruction="You are a helpful voice assistant."
 )

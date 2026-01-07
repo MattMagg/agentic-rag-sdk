@@ -122,7 +122,7 @@ Include the toolset in your agent's tools list:
 from google.adk.agents import LlmAgent
 
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="api_agent",
     instruction="""You are an assistant that helps users interact with 
     external APIs. Use the available tools to fulfill user requests.""",
@@ -238,7 +238,7 @@ toolset = OpenAPIToolset(
 
 # Create agent
 agent = LlmAgent(
-    model="gemini-2.0-flash",
+    model="gemini-3-flash-preview",
     name="petstore_agent",
     instruction="Help users manage their pet store inventory.",
     tools=[toolset]

@@ -1,9 +1,0 @@
-{
-  "name": "adk-builder",
-  "version": "1.0.0",
-  "description": "End-to-end agentic systems development with Google ADK. Comprehensive guidance for building production-ready agentic systems covering the full lifecycle: project setup, agent creation, tools, multi-agent orchestration, memory, security, streaming, deployment, and quality assurance.",
-  "author": {
-    "name": "ADK Builder Contributors"
-  },
-  "keywords": ["adk", "google", "agents", "agentic", "gemini", "vertex-ai"]
-}

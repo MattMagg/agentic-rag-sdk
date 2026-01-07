@@ -44,26 +44,48 @@ Use `/adk-create-workflow` to generate new workflows via RAG-grounded research a
 
 ## Querying the RAG Pipeline
 
-Query results return a balanced mix of **adk_docs** (official documentation) and **adk_python** (source code examples).
+Query results return a balanced mix of docs and code. Use `--sdk` to isolate queries to a specific SDK.
+
+### SDK-based Filtering (Recommended)
 
 ```bash
-# Basic query
-python -m src.grounding.query.query_adk "your query" --top-k 12
+# Query only Google ADK corpora
+python -m src.grounding.query.query_adk "how to use ToolContext" --sdk adk
 
+# Query only OpenAI Agents SDK corpora
+python -m src.grounding.query.query_adk "how to create handoffs" --sdk openai
+
+# Query only general agent development docs
+python -m src.grounding.query.query_adk "agent architectures" --sdk general
+```
+
+### SDK Groups
+
+| SDK Flag | Corpora Included |
+|----------|------------------|
+| `--sdk adk` | `adk_docs`, `adk_python` |
+| `--sdk openai` | `openai_agents_docs`, `openai_agents_python` |
+| `--sdk general` | `agent_dev_docs` |
+
+### Additional Options
+
+```bash
 # With verbose timing breakdown
-python -m src.grounding.query.query_adk "your query" --verbose
+python -m src.grounding.query.query_adk "your query" --sdk adk --verbose
 
 # Multi-query expansion for better recall
-python -m src.grounding.query.query_adk "your query" --multi-query --verbose
+python -m src.grounding.query.query_adk "your query" --sdk adk --multi-query
 
-# Filter by corpus (adk_docs or adk_python)
-python -m src.grounding.query.query_adk "your query" --corpus adk_python
+# Filter by specific corpus (multiple allowed)
+python -m src.grounding.query.query_adk "your query" --corpus adk_docs --corpus adk_python
 ```
 
 **Python usage:**
 ```python
-from src.grounding.query.query_adk import search_adk
-results = search_adk("how to use ToolContext", top_k=12)
+from src.grounding.query.query_adk import search_adk, SDK_GROUPS
+
+# Query with SDK filter
+results = search_adk("how to use ToolContext", filters={"corpus": SDK_GROUPS["adk"]})
 ```
 
 ## Build & Test Commands

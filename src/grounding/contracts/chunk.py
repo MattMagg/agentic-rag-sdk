@@ -17,7 +17,10 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 
-SourceCorpus = Literal["adk_docs", "adk_python", "agent_dev_docs"]
+SourceCorpus = Literal[
+    "adk_docs", "adk_python", "agent_dev_docs",
+    "openai_agents_docs", "openai_agents_python"
+]
 ContentKind = Literal["code", "doc"]
 
 

@@ -151,12 +151,26 @@ QDRANT_COLLECTION="my_knowledge_base_v1"
 ### 3. Query the Pipeline
 
 ```bash
-# CLI usage
-python -m src.grounding.query.query_adk "How do I implement multi-agent orchestration?" --verbose
+# Query Google ADK only
+python -m src.grounding.query.query_adk "How to implement multi-agent orchestration?" --sdk adk
 
-# With multi-query expansion
-python -m src.grounding.query.query_adk "your query" --multi-query --verbose
+# Query OpenAI Agents SDK only  
+python -m src.grounding.query.query_adk "How to create handoffs?" --sdk openai
+
+# Query general agent development docs
+python -m src.grounding.query.query_adk "Agent architectures" --sdk general
+
+# With verbose output
+python -m src.grounding.query.query_adk "your query" --sdk adk --verbose
 ```
+
+**SDK Groups:**
+
+| Flag | Corpora |
+|------|---------|
+| `--sdk adk` | `adk_docs`, `adk_python` |
+| `--sdk openai` | `openai_agents_docs`, `openai_agents_python` |
+| `--sdk general` | `agent_dev_docs` |
 
 ---
 
@@ -189,7 +203,9 @@ rag_qdrant_voyage/
 │   └── logging.yaml         # Logging configuration
 ├── corpora/                 # YOUR CONTENT GOES HERE
 │   ├── adk-docs/            # ADK documentation corpus
-│   └── adk-python/          # ADK Python SDK corpus
+│   ├── adk-python/          # ADK Python SDK corpus
+│   ├── openai-agents-python/# OpenAI Agents SDK corpus (docs + source)
+│   └── agent-dev-docs/      # General agent development docs
 ├── src/grounding/
 │   ├── clients/             # Qdrant + Voyage client wrappers
 │   ├── contracts/           # Pydantic models for chunks, payloads

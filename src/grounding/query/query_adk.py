@@ -64,6 +64,19 @@ from src.grounding.config import get_settings
 # Type aliases
 RetrievalMode = Literal["build", "debug", "explain", "refactor"]
 
+# SDK groupings for convenient filtering
+SDK_GROUPS = {
+    "adk": ["adk_docs", "adk_python"],
+    "openai": ["openai_agents_docs", "openai_agents_python"],
+    "general": ["agent_dev_docs"],
+}
+
+# All known corpora (for validation)
+ALL_CORPORA = [
+    "adk_docs", "adk_python", "agent_dev_docs",
+    "openai_agents_docs", "openai_agents_python"
+]
+
 
 def generate_query_variations(original_query: str, num_variations: int = 3) -> List[str]:
     """
@@ -319,6 +332,14 @@ def search_adk(
                             )
                         )
                     )
+            elif isinstance(value, list):
+                # Multi-value filter (e.g., corpus in ["adk_docs", "adk_python"])
+                conditions.append(
+                    models.FieldCondition(
+                        key=key,
+                        match=models.MatchAny(any=value)
+                    )
+                )
             else:
                 conditions.append(
                     models.FieldCondition(key=key, match=models.MatchValue(value=value))
@@ -465,11 +486,12 @@ def search_adk(
 
     timings["total"] = time.time() - start_time
 
-    coverage = {
-        "adk_docs": sum(1 for r in final_results if r.get("corpus") == "adk_docs"),
-        "adk_python": sum(1 for r in final_results if r.get("corpus") == "adk_python"),
-        "agent_dev_docs": sum(1 for r in final_results if r.get("corpus") == "agent_dev_docs")
-    }
+    # Dynamic coverage tracking across all corpora
+    coverage = {}
+    for corpus_name in ALL_CORPORA:
+        count = sum(1 for r in final_results if r.get("corpus") == corpus_name)
+        if count > 0:
+            coverage[corpus_name] = count
 
     return {
         "query": query,
@@ -501,13 +523,22 @@ def main():
     parser.add_argument("--no-rerank", action="store_true", help="Disable reranking")
     parser.add_argument("--first-stage-k", type=int, default=80, help="Candidates per prefetch lane")
     parser.add_argument("--rerank-candidates", type=int, default=60, help="Candidates to reranker")
-    parser.add_argument("--corpus", choices=["adk_docs", "adk_python", "agent_dev_docs"], help="Filter by corpus")
+    parser.add_argument("--corpus", action="append", choices=ALL_CORPORA,
+                        help="Filter by corpus (can specify multiple: --corpus adk_docs --corpus adk_python)")
+    parser.add_argument("--sdk", choices=list(SDK_GROUPS.keys()),
+                        help="Filter by SDK group: adk, openai, or general")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
     args = parser.parse_args()
 
+    # Build corpus filter from --sdk or --corpus
     filters = {}
-    if args.corpus:
-        filters["corpus"] = args.corpus
+    if args.sdk:
+        filters["corpus"] = SDK_GROUPS[args.sdk]
+    elif args.corpus:
+        if len(args.corpus) == 1:
+            filters["corpus"] = args.corpus[0]
+        else:
+            filters["corpus"] = args.corpus
 
     results = search_adk(
         query=args.query,
@@ -530,7 +561,9 @@ def main():
           f"Balanced={results['pipeline']['balanced_pool']}, "
           f"Reranked={results['pipeline']['reranked']}")
     print(f"Results: {results['count']}")
-    print(f"Coverage: Docs={results['coverage']['adk_docs']}, Code={results['coverage']['adk_python']}")
+    # Display coverage for all corpora that have results
+    coverage_parts = [f"{k}={v}" for k, v in results['coverage'].items()]
+    print(f"Coverage: {', '.join(coverage_parts) if coverage_parts else 'none'}")
     
     if results['warnings']:
         print(f"Warnings: {results['warnings']}")

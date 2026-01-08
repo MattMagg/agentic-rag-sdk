@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "adk-workflow-rag",
+  "description": "ADK development tools and workflows",
+  "owner": {
+    "name": "MattMagg"
+  },
+  "plugins": [
+    {
+      "name": "adk-builder",
+      "description": "Autonomous ADK development with specialized agents for planning, coding, debugging, and verification",
+      "source": "./adk-builder",
+      "category": "development"
+    }
+  ]
+}

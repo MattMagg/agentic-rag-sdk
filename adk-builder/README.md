@@ -13,17 +13,17 @@ ADK Builder is a Claude Code plugin that provides an intelligent, multi-agent wo
 
 ## Installation
 
-### Option 1: Plugin Directory (Development)
+### Option 1: Marketplace (Recommended)
 
 ```bash
-claude --plugin-dir /path/to/adk-builder
+/plugin marketplace add https://github.com/MattMagg/rag_qdrant_voyage.git
+/plugin install adk-builder@adk-workflow-rag
 ```
 
-### Option 2: Marketplace (Recommended)
+### Option 2: Plugin Directory (Local Development)
 
 ```bash
-/plugin marketplace add /path/to/adk-builder
-/plugin install adk-builder@adk-tools
+claude --plugin-dir /path/to/rag_qdrant_voyage/adk-builder
 ```
 
 ## Agents

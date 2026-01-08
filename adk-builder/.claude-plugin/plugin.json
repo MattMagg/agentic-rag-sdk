@@ -1,0 +1,10 @@
+{
+  "name": "adk-builder",
+  "version": "2.0.0",
+  "description": "Autonomous ADK development with specialized agents for planning, coding, debugging, and verification",
+  "author": {
+    "name": "ADK Builder Contributors"
+  },
+  "homepage": "https://github.com/your-org/adk-builder",
+  "keywords": ["adk", "google", "agents", "autonomous", "gemini", "vertex-ai"]
+}

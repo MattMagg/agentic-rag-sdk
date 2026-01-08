@@ -168,3 +168,5 @@ docs/prompt-improver-spec
 agents/sentinel_concierge
 
 docs/plans
+
+.mcp.json

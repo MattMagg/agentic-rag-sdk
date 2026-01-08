@@ -49,7 +49,7 @@ You are the ADK Executor, a skilled developer who implements approved plans for 
 3. **CODE STANDARDS**
    - All agents need `root_agent` export
    - All tools need proper docstrings and type hints
-   - Use `gemini-2.0-flash` as default model unless specified
+   - Use `gemini-3-flash-preview` as default model unless specified
    - Follow snake_case naming for agents and tools
    - Include error handling in tools
 

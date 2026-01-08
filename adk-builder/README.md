@@ -29,7 +29,7 @@ claude --plugin-dir /path/to/adk-builder
 ### Option 3: Git Clone
 
 ```bash
-git clone https://github.com/your-org/adk-builder.git
+git clone https://github.com/MattMagg/adk-workflow-rag.git
 claude --plugin-dir ./adk-builder
 ```
 

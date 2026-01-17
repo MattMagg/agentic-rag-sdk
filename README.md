@@ -1,62 +1,76 @@
-# RAG Pipeline + ADK Agent Workflows
+# Voyage + Qdrant RAG Pipeline
 
-A **dual-purpose repository** providing:
+**Accuracy-first retrieval infrastructure for grounding AI coding agents.**
 
-1. **RAG Pipeline Infrastructure** – Drop-in, accuracy-first retrieval using Voyage AI embeddings and Qdrant vector DB
-2. **ADK Development Workflows** – 43 grounded, RAG-informed workflows for building agentic systems with Google Agent Development Kit (ADK)
+A production-ready RAG pipeline using Voyage AI embeddings, Qdrant vector database, and hybrid retrieval with cross-encoder reranking. Currently indexes 9 corpora (~14,700 vectors) across major agentic AI SDKs.
 
-> **Note**: The ADK workflows are crafted for [Antigravity IDE](https://www.antigravity.dev/) but work with any IDE coding agent that supports workflow files.
-
----
-
-## ✨ What This Repository Provides
-
-### RAG Pipeline
-End-to-end retrieval infrastructure optimized for accuracy:
-
-- **Voyage AI Embeddings** – Context-aware embeddings for docs (`voyage-context-3`) and code (`voyage-code-3`)
-- **Voyage Rerank** – Cross-encoder reranking with instruction-following (`rerank-2.5`)
-- **Qdrant Vector DB** – Hybrid retrieval combining dense + sparse vectors with server-side RRF fusion
-- **Drop-in Architecture** – Clone any repo, point to any docs folder, and ingest
-
-### ADK Agent Workflows
-Comprehensive **agent-optimized** workflows enabling IDE agents to autonomously build agentic systems:
-
-| Category | Workflows | Coverage |
-|----------|-----------|----------|
-| **Foundation** | `adk-init`, `adk-agents-*`, `adk-master` | Project setup, LlmAgent, BaseAgent, multi-model |
-| **Tools** | `adk-tools-*` | FunctionTool, MCP, OpenAPI, builtin, third-party |
-| **Behavior** | `adk-behavior-*` | Callbacks, state, events, artifacts, plugins |
-| **Multi-Agent** | `adk-multi-agent-*` | Delegation, orchestration, A2A protocol |
-| **Memory** | `adk-memory-*` | Memory services, grounding tools |
-| **Streaming** | `adk-streaming-*` | SSE, bidirectional, multimodal |
-| **Deployment** | `adk-deploy-*` | Cloud Run, GKE, Vertex AI Agent Engine |
-| **Security** | `adk-security-*` | Auth, guardrails, security plugins |
-| **Quality** | `adk-quality-*` | Logging, tracing, observability, evals |
-| **Advanced** | `adk-advanced-*` | ThinkingConfig, visual builder |
-| **Meta** | `adk-master`, `adk-create-workflow` | Workflow orchestration and creation |
-
-**Agent Infrastructure:** Workflows include machine-readable frontmatter with triggers, dependencies, and completion criteria for programmatic selection.
+**Secondary feature**: 44 IDE-agnostic workflows for building agents with Google ADK.
 
 ---
 
-## 🎯 Use Cases
+## Quick Start
 
-### RAG Pipeline
-- **Ground AI coding agents** with official documentation and source code
-- **Build internal knowledge bases** from company docs, wikis, and runbooks
-- **Create documentation chatbots** with precise, citation-backed answers
-- **Enable semantic code search** across large codebases
+### Prerequisites
 
-### ADK Workflows
-- **Autonomous agent development** – IDE agents follow workflows to build ADK agents
-- **Consistent implementation patterns** – Grounded in official ADK docs and SDK
-- **Rapid prototyping** – From project init to multi-agent orchestration
-- **Quality assurance** – Built-in evaluation and observability patterns
+- Python 3.11+
+- [Voyage AI API Key](https://dash.voyageai.com/)
+- [Qdrant Cloud](https://cloud.qdrant.io/) cluster (free tier works)
+
+### 1. Clone and Install
+
+```bash
+git clone https://github.com/MattMagg/adk-workflow-rag.git
+cd adk-workflow-rag
+pip install -e .
+```
+
+### 2. Configure Environment
+
+```bash
+cp .env.example .env
+# Edit .env with your API keys
+```
+
+Required variables:
+```bash
+VOYAGE_API_KEY="your-voyage-api-key"
+QDRANT_URL="https://your-cluster.region.cloud.qdrant.io:6333"
+QDRANT_API_KEY="your-qdrant-api-key"
+QDRANT_COLLECTION="agentic_grounding_v1"
+```
+
+### 3. Initialize Pipeline
+
+```bash
+# Verify API connections
+python -m src.grounding.scripts.00_smoke_test_connections
+
+# Create Qdrant collection with schema
+python -m src.grounding.scripts.02_ensure_collection_schema
+
+# Ingest a corpus (e.g., ADK docs)
+python -m src.grounding.scripts.03_ingest_corpus --corpus adk_docs
+```
+
+### 4. Query
+
+```bash
+# Query Google ADK
+python -m src.grounding.query.query_adk "How to implement multi-agent orchestration?" --sdk adk
+
+# Query OpenAI Agents SDK
+python -m src.grounding.query.query_adk "How to create handoffs?" --sdk openai
+
+# Query LangChain ecosystem
+python -m src.grounding.query.query_adk "How to use LangGraph checkpoints?" --sdk langchain
+
+# With verbose output
+python -m src.grounding.query.query_adk "your query" --verbose --multi-query
+```
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -116,168 +130,137 @@ Comprehensive **agent-optimized** workflows enabling IDE agents to autonomously 
 
 ---
 
-## 🚀 Quick Start
+## SDK Groups & Corpora
 
-### Prerequisites
+| SDK Flag | Corpora | Description |
+|----------|---------|-------------|
+| `--sdk adk` | `adk_docs`, `adk_python` | Google Agent Development Kit |
+| `--sdk openai` | `openai_agents_docs`, `openai_agents_python` | OpenAI Agents SDK |
+| `--sdk langchain` | `langgraph_python`, `langchain_python`, `deepagents_python`, `deepagents_docs` | LangChain ecosystem |
+| `--sdk langgraph` | `langgraph_python`, `deepagents_python`, `deepagents_docs` | LangGraph + DeepAgents |
+| `--sdk general` | `agent_dev_docs` | General agent development |
 
-- Python 3.11+
-- [Voyage AI API Key](https://voyageai.com/)
-- [Qdrant Cloud](https://cloud.qdrant.io/) cluster (or local Qdrant)
-
-### 1. Clone and Install
-
-```bash
-git clone https://github.com/MattMagg/rag_qdrant_voyage.git
-cd rag_qdrant_voyage
-pip install -e .
-```
-
-### 2. Configure Credentials
-
-Copy `.env.example` to `.env` and fill in your keys:
-
-```bash
-# Voyage AI
-VOYAGE_API_KEY="your-voyage-api-key"
-
-# Qdrant Cloud
-QDRANT_URL="https://your-cluster.region.cloud.qdrant.io:6333"
-QDRANT_API_KEY="your-qdrant-api-key"
-
-# Collection name (customize per project)
-QDRANT_COLLECTION="my_knowledge_base_v1"
-```
-
-### 3. Query the Pipeline
-
-```bash
-# Query Google ADK only
-python -m src.grounding.query.query_adk "How to implement multi-agent orchestration?" --sdk adk
-
-# Query OpenAI Agents SDK only  
-python -m src.grounding.query.query_adk "How to create handoffs?" --sdk openai
-
-# Query general agent development docs
-python -m src.grounding.query.query_adk "Agent architectures" --sdk general
-
-# With verbose output
-python -m src.grounding.query.query_adk "your query" --sdk adk --verbose
-```
-
-**SDK Groups:**
-
-| Flag | Corpora |
-|------|---------|
-| `--sdk adk` | `adk_docs`, `adk_python` |
-| `--sdk openai` | `openai_agents_docs`, `openai_agents_python` |
-| `--sdk general` | `agent_dev_docs` |
+**Current stats**: 9 corpora, ~14,700 vectors, 5 SDK filter groups
 
 ---
 
-## 📁 Project Structure
+## Adding Your Own Corpora
 
+### Step 1: Clone the Repository
+
+```bash
+cd corpora/
+git clone https://github.com/your-org/your-repo.git
 ```
-rag_qdrant_voyage/
-├── .agent/
-│   ├── workflows/           # ADK DEVELOPMENT WORKFLOWS (43 files)
-│   │   ├── _schema.yaml     # Agent-optimized frontmatter schema
-│   │   ├── _manifest.json   # Workflow index with dependency graph
-│   │   ├── adk-master.md    # Master orchestrator
-│   │   ├── adk-init*.md     # Project initialization
-│   │   ├── adk-agents-*.md  # Agent creation patterns
-│   │   ├── adk-tools-*.md   # Tool integration
-│   │   ├── adk-behavior-*.md    # Agent behavior
-│   │   ├── adk-multi-agent-*.md # Multi-agent orchestration
-│   │   ├── adk-memory-*.md      # Memory and grounding
-│   │   ├── adk-streaming-*.md   # Streaming patterns
-│   │   ├── adk-deploy-*.md      # Deployment workflows
-│   │   ├── adk-security-*.md    # Security patterns
-│   │   ├── adk-quality-*.md     # Quality assurance
-│   │   └── adk-advanced-*.md    # Advanced features
-│   ├── scripts/             # Workflow tooling
-│   │   ├── validate_workflows.py  # Schema compliance checker
-│   │   └── select_workflow.py     # Query-to-workflow router
-│   └── tools/               # Non-workflow agent tools
-├── config/
-│   ├── settings.yaml        # Main configuration
-│   └── logging.yaml         # Logging configuration
-├── corpora/                 # YOUR CONTENT GOES HERE
-│   ├── adk-docs/            # ADK documentation corpus
-│   ├── adk-python/          # ADK Python SDK corpus
-│   ├── openai-agents-python/# OpenAI Agents SDK corpus (docs + source)
-│   └── agent-dev-docs/      # General agent development docs
-├── src/grounding/
-│   ├── clients/             # Qdrant + Voyage client wrappers
-│   ├── contracts/           # Pydantic models for chunks, payloads
-│   ├── chunking/            # AST-based code + heading-aware doc chunkers
-│   ├── embedding/           # Dense (Voyage) + sparse (SPLADE) embedders
-│   ├── query/               # Hybrid query + rerank pipeline
-│   └── scripts/             # CLI commands (ingest, verify, query)
-├── docs/spec/               # Detailed implementation specifications
-└── tests/                   # Smoke tests + retrieval evaluation
+
+### Step 2: Add Configuration
+
+Edit `config/settings.yaml` and add an entry under `ingestion.corpora`:
+
+```yaml
+your_corpus_name:
+  root: "corpora/your-repo"
+  corpus: "your_corpus_name"
+  repo: "your-org/your-repo"
+  kind: "doc"  # or "code"
+  ref: "main"
+  include_globs:
+    - "docs/**/*.md"
+    - "src/**/*.py"
+  exclude_globs:
+    - "**/.git/**"
+    - "**/tests/**"
+  allowed_exts: [".md", ".py"]
+  max_file_bytes: 500000
+```
+
+**Kind determines embedding model**:
+- `doc` → `voyage-context-3` (optimized for documentation)
+- `code` → `voyage-code-3` (optimized for source code)
+
+### Step 3: Update Type Definition
+
+Edit `src/grounding/contracts/chunk.py` and add to `SourceCorpus`:
+
+```python
+SourceCorpus = Literal[
+    "adk_docs",
+    "adk_python",
+    # ... existing corpora ...
+    "your_corpus_name",  # Add here
+]
+```
+
+### Step 4: Update Query Module
+
+Edit `src/grounding/query/query_adk.py`:
+
+```python
+# Add to ALL_CORPORA list
+ALL_CORPORA = [
+    # ... existing corpora ...
+    "your_corpus_name",
+]
+
+# Optionally add to SDK_GROUPS for --sdk filtering
+SDK_GROUPS = {
+    # ... existing groups ...
+    "your_sdk": ["your_corpus_name"],
+}
+```
+
+### Step 5: Ingest
+
+```bash
+python -m src.grounding.scripts.03_ingest_corpus --corpus your_corpus_name
 ```
 
 ---
 
-## 🤖 Using the ADK Workflows
+## Switching Embedding Models
 
-### With Antigravity IDE
+### Why This Repo Uses Voyage 3 Family
 
-The workflows are automatically detected. Use slash commands:
+This pipeline uses `voyage-context-3` (docs) and `voyage-code-3` (code) because they are purpose-built for their respective content types. The specialized models provide better retrieval quality for code and documentation compared to general-purpose models.
 
-```
-/adk-master          # Master orchestrator - routes to appropriate workflow
-/adk-init            # Initialize new ADK project
-/adk-agents-create   # Create LlmAgent with model and instructions
-/adk-tools-function  # Add custom FunctionTool
-/adk-multi-agent-delegation  # Implement multi-agent patterns
-```
+### Available Voyage Models
 
-### With Other IDE Agents
+**Voyage 3 family** (used in this repo):
+- `voyage-context-3` - Optimized for long-context documents (2048d)
+- `voyage-code-3` - Optimized for source code (2048d)
 
-Copy `.agent/workflows/` to your project and reference the workflows in your agent's system prompt or configuration.
+**Voyage 4 family** (general-purpose, if you prefer):
+- `voyage-4-large` - Highest quality general model (1024d)
+- `voyage-4` - Balanced quality/speed (1024d)
+- `voyage-4-lite` - Faster, smaller (512d)
+- `voyage-4-nano` - Fastest, smallest (512d)
 
-### Workflow Categories
+### How to Switch to Voyage 4
 
-| Prefix | Purpose |
-|--------|---------|
-| `adk-init-*` | Project scaffolding and setup |
-| `adk-agents-*` | LlmAgent, BaseAgent, multi-model config |
-| `adk-tools-*` | FunctionTool, MCP, OpenAPI, builtin tools |
-| `adk-behavior-*` | Callbacks, state management, events |
-| `adk-multi-agent-*` | Delegation, orchestration, A2A protocol |
-| `adk-memory-*` | Memory services and grounding |
-| `adk-streaming-*` | SSE, bidirectional, multimodal |
-| `adk-deploy-*` | Cloud Run, GKE, Agent Engine |
-| `adk-security-*` | Auth, guardrails, security plugins |
-| `adk-quality-*` | Logging, tracing, evals, observability |
-| `adk-advanced-*` | ThinkingConfig, visual builder |
+1. **Update `config/settings.yaml`**:
+   ```yaml
+   voyage:
+     docs_model: "voyage-4-large"  # or voyage-4, voyage-4-lite
+     code_model: "voyage-4-large"  # Voyage 4 doesn't have specialized code model
+     output_dimension: 1024        # Voyage 4 uses 1024d (not 2048d)
+   ```
 
-### Agent Tooling
+2. **Re-create Qdrant collection** (dimensions must match):
+   ```bash
+   # Delete existing collection first (via Qdrant console or API)
+   python -m src.grounding.scripts.02_ensure_collection_schema
+   ```
 
-The workflows include infrastructure for programmatic selection and validation:
-
-```bash
-# Find the right workflow for a task (with dependency chain)
-python .agent/scripts/select_workflow.py "add a function tool to my agent"
-# Output: adk-init → adk-agents-create → adk-tools-function
-
-# Validate all workflows against schema
-python .agent/scripts/validate_workflows.py --verbose
-
-# List all workflow categories
-python .agent/scripts/select_workflow.py --list-categories
-```
-
-**Manifest (`_manifest.json`):** Contains workflow index, dependency graph, and routing keywords for agent-based selection.
-
-**Schema (`_schema.yaml`):** Defines frontmatter fields (triggers, dependencies, outputs, completion_criteria) for agent-optimized parsing.
+3. **Re-ingest all corpora**:
+   ```bash
+   python -m src.grounding.scripts.03_ingest_corpus
+   ```
 
 ---
 
-## ⚙️ Configuration
+## Configuration Reference
 
-### Core Settings (`config/settings.yaml`)
+### `config/settings.yaml`
 
 ```yaml
 qdrant:
@@ -293,59 +276,130 @@ voyage:
   rerank_model: "rerank-2.5"
 
 retrieval_defaults:
-  fusion: "rrf"
-  prefetch_limit_dense: 80
-  prefetch_limit_sparse: 120
-  final_limit: 40
-  rerank_top_k: 12
+  fusion: "rrf"                    # Reciprocal Rank Fusion
+  prefetch_limit_dense: 80         # Candidates per dense search
+  prefetch_limit_sparse: 120       # Candidates from sparse search
+  final_limit: 40                  # Candidates sent to reranker
+  rerank_top_k: 12                 # Final results returned
 ```
+
+Environment variable substitution (`${VAR}`) is supported throughout.
 
 ---
 
-## 🔍 Retrieval Deep Dive
+## Hybrid Retrieval Strategy
 
-### Hybrid Search Strategy
+Every query executes **3 parallel searches**:
 
-Every query triggers **3 parallel searches**:
-
-| Search Type | Vector Space | Model | Purpose |
-|-------------|--------------|-------|---------|
+| Search | Vector Space | Model | Purpose |
+|--------|--------------|-------|---------|
 | Dense Docs | `dense_docs` | `voyage-context-3` | Semantic match for documentation |
 | Dense Code | `dense_code` | `voyage-code-3` | Semantic match for code |
 | Sparse | `sparse_lexical` | SPLADE++ | Exact keyword/identifier match |
 
-Results are **fused server-side** using Reciprocal Rank Fusion (RRF), then **reranked** with Voyage `rerank-2.5`.
+Results are **fused server-side** using Reciprocal Rank Fusion (RRF), then **reranked** with `rerank-2.5`.
 
 ### Coverage Balancing
 
-The pipeline enforces a balanced mix of documentation and code results before reranking to ensure grounded evidence from both sources.
+Before reranking, the pipeline ensures a balanced mix of documentation and code results. This prevents the reranker from seeing only one content type and ensures grounded evidence from both sources.
 
 ---
 
-## 📚 Specifications
+## Coding Agent Workflows
 
-| Spec | Topic |
-|------|-------|
-| [Foundation & Environment](docs/spec/Foundation_and_Environment.md) | Project setup, credentials, client wrappers |
-| [Qdrant Schema](docs/spec/qdrant_schema_and_config.md) | Collection schema, HNSW config, payload indexes |
-| [Ingestion Pipeline](docs/spec/ingestion_upsert.md) | Chunking, embedding, upsert workflow |
-| [Hybrid Query](docs/spec/hybrid_query.md) | Prefetch, fusion, ADK tool interface |
-| [Rerank Retrieval](docs/spec/rerank_retrieval.md) | Voyage rerank, evidence packs, evaluation |
+This repository includes **44 ADK development workflows** in `.agent/workflows/` for building agentic systems with Google Agent Development Kit.
 
----
+### Quick Usage
 
-## 🛠️ Development
-
-### Prerequisites
-
-```bash
-pip install -e ".[dev]"
+With [Antigravity IDE](https://www.antigravity.dev/), workflows are auto-detected:
+```
+/adk-master          # Master orchestrator
+/adk-init            # Initialize new project
+/adk-agents-create   # Create LlmAgent
+/adk-tools-function  # Add FunctionTool
 ```
 
-### Running Tests
+For other IDEs, copy `.agent/workflows/` to your project and reference in your agent's system prompt.
+
+### Workflow Categories
+
+| Prefix | Purpose |
+|--------|---------|
+| `adk-init-*` | Project scaffolding |
+| `adk-agents-*` | Agent creation (LlmAgent, BaseAgent) |
+| `adk-tools-*` | Tool integration (FunctionTool, MCP, OpenAPI) |
+| `adk-behavior-*` | Callbacks, state, events |
+| `adk-multi-agent-*` | Delegation, orchestration, A2A |
+| `adk-memory-*` | Memory services, grounding |
+| `adk-streaming-*` | SSE, bidirectional, multimodal |
+| `adk-deploy-*` | Cloud Run, GKE, Agent Engine |
+| `adk-security-*` | Auth, guardrails |
+| `adk-quality-*` | Logging, tracing, evals |
+| `adk-advanced-*` | ThinkingConfig, visual builder |
+
+See `.agent/workflows/adk-workflow/` for detailed workflow creation specs.
+
+---
+
+## Project Structure
+
+```
+adk-workflow-rag/
+├── .agent/
+│   ├── workflows/           # 44 ADK development workflows
+│   │   ├── _schema.yaml     # Frontmatter schema
+│   │   ├── _manifest.json   # Workflow index + dependencies
+│   │   └── adk-*.md         # Individual workflows
+│   └── scripts/             # Workflow tooling
+├── config/
+│   ├── settings.yaml        # Main configuration
+│   └── logging.yaml         # Logging configuration
+├── corpora/                 # Git-cloned source repositories
+│   ├── adk-docs/            # Google ADK documentation
+│   ├── adk-python/          # Google ADK Python SDK
+│   ├── openai-agents-python/# OpenAI Agents SDK
+│   ├── langgraph/           # LangGraph source
+│   ├── langchain/           # LangChain source
+│   ├── deepagents/          # DeepAgents source
+│   └── agent-dev-docs/      # General agent docs
+├── src/grounding/
+│   ├── clients/             # Qdrant + Voyage client wrappers
+│   ├── contracts/           # Pydantic models (Chunk, Document)
+│   ├── chunkers/            # AST-based code + heading-aware docs
+│   ├── query/               # Hybrid query + rerank pipeline
+│   └── scripts/             # CLI commands (00-03)
+├── docs/
+│   ├── voyage-qdrant-rag-spec/  # 6 detailed spec files
+│   └── rag-query.md             # Query tool documentation
+└── tests/                   # pytest tests
+```
+
+---
+
+## Documentation
+
+| Document | Topic |
+|----------|-------|
+| [Foundation & Environment](docs/voyage-qdrant-rag-spec/Foundation_and_Environment.md) | Setup, credentials, client wrappers |
+| [Qdrant Schema](docs/voyage-qdrant-rag-spec/qdrant_schema_and_config.md) | Collection schema, HNSW config |
+| [Ingestion Pipeline](docs/voyage-qdrant-rag-spec/ingestion_upsert.md) | Chunking, embedding, upsert |
+| [Hybrid Query](docs/voyage-qdrant-rag-spec/hybrid_query.md) | Prefetch, fusion, tool interface |
+| [Rerank Retrieval](docs/voyage-qdrant-rag-spec/rerank_retrieval.md) | Voyage rerank, evidence packs |
+| [Corpus Targets](docs/voyage-qdrant-rag-spec/corpus_embedding_targets.md) | Corpus configuration |
+
+---
+
+## Development
 
 ```bash
+# Install with dev dependencies
+pip install -e ".[dev]"
+
+# Run tests
 pytest tests/
+
+# Run single test
+pytest tests/test_config_loads.py -v
 ```
 
 ### Key Dependencies
@@ -359,14 +413,14 @@ pytest tests/
 
 ---
 
-## 📄 License
+## License
 
 MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions welcome! Please read the specs in `docs/spec/` before making changes to core retrieval logic.
+Contributions welcome! Please read the specs in `docs/voyage-qdrant-rag-spec/` before modifying core retrieval logic.
 
-For ADK workflow contributions, follow the structure in existing workflows and ensure examples are grounded in official ADK documentation.
+For workflow contributions, follow existing patterns in `.agent/workflows/` and ensure examples are grounded in official ADK documentation.

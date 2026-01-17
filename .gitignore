@@ -161,12 +161,4 @@ temp/
 
 corpora/agent-dev-docs
 
-docs/bmx-docs
-
-docs/prompt-improver-spec
-
-agents/sentinel_concierge
-
-docs/plans
-
 .mcp.json

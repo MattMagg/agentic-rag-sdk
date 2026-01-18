@@ -2,7 +2,7 @@
 
 **Accuracy-first retrieval infrastructure for grounding AI coding agents.**
 
-A production-ready RAG pipeline using Voyage AI embeddings, Qdrant vector database, and hybrid retrieval with cross-encoder reranking. Currently indexes 9 corpora (~14,700 vectors) across major agentic AI SDKs.
+A production-ready RAG pipeline using Voyage AI embeddings, Qdrant vector database, and hybrid retrieval with cross-encoder reranking. Currently indexes 13 corpora (~18,000 vectors) across major agentic AI SDKs.
 
 **Secondary feature**: 44 IDE-agnostic workflows for building agents with Google ADK.
 
@@ -63,6 +63,12 @@ python -m src.grounding.query.query "How to create handoffs?" --sdk openai
 
 # Query LangChain ecosystem
 python -m src.grounding.query.query "How to use LangGraph checkpoints?" --sdk langchain
+
+# Query Anthropic Claude Agent SDK
+python -m src.grounding.query.query "How to create a Claude agent?" --sdk anthropic
+
+# Query CrewAI Framework
+python -m src.grounding.query.query "How to define a CrewAI crew?" --sdk crewai
 
 # With verbose output and multi-query expansion
 python -m src.grounding.query.query "your query" --verbose --multi-query
@@ -152,9 +158,11 @@ python -m src.grounding.query.query "your query" --expand-context --expand-top-k
 | `--sdk openai` | `openai_agents_docs`, `openai_agents_python` | OpenAI Agents SDK |
 | `--sdk langchain` | `langgraph_python`, `langchain_python`, `deepagents_python`, `deepagents_docs` | LangChain ecosystem |
 | `--sdk langgraph` | `langgraph_python`, `deepagents_python`, `deepagents_docs` | LangGraph + DeepAgents |
+| `--sdk anthropic` | `claude_sdk_docs`, `claude_sdk_python` | Anthropic Claude Agent SDK |
+| `--sdk crewai` | `crewai_docs`, `crewai_python` | CrewAI multi-agent framework |
 | `--sdk general` | `agent_dev_docs` | General agent development |
 
-**Current stats**: 9 corpora, ~14,700 vectors, 5 SDK filter groups
+**Current stats**: 13 corpora, ~18,000 vectors, 7 SDK filter groups
 
 ---
 
@@ -413,6 +421,8 @@ adk-workflow-rag/
 │   ├── langgraph/           # LangGraph source
 │   ├── langchain/           # LangChain source
 │   ├── deepagents/          # DeepAgents source
+│   ├── claude-agent-sdk-python/ # Anthropic Claude Agent SDK
+│   ├── crewAI/              # CrewAI framework
 │   └── agent-dev-docs/      # General agent docs
 ├── src/grounding/
 │   ├── clients/             # Qdrant + Voyage client wrappers

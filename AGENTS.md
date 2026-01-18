@@ -48,6 +48,8 @@ python -m src.grounding.query.query "query" --sdk adk       # Google ADK
 python -m src.grounding.query.query "query" --sdk openai    # OpenAI Agents
 python -m src.grounding.query.query "query" --sdk langchain # LangChain ecosystem
 python -m src.grounding.query.query "query" --sdk langgraph # LangGraph + DeepAgents
+python -m src.grounding.query.query "query" --sdk anthropic # Claude Agent SDK
+python -m src.grounding.query.query "query" --sdk crewai    # CrewAI Framework
 
 # Additional options
 python -m src.grounding.query.query "query" --verbose --multi-query --top-k 12
@@ -235,4 +237,4 @@ config/settings.yaml    # YAML config with ${VAR} substitution
 1. **Config loading**: Always use `get_settings()` - it's cached and handles env substitution
 2. **Client access**: Use `get_*_client()` functions for singleton instances
 3. **Idempotent ingestion**: Chunks are deduplicated via `text_hash` comparison
-4. **SDK groups**: Filter queries with `--sdk adk|openai|langchain|langgraph|general`
+4. **SDK groups**: Filter queries with `--sdk adk|openai|langchain|langgraph|anthropic|crewai|general`

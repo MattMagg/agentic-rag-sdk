@@ -10,6 +10,8 @@ The RAG database contains documentation and source code from multiple SDK ecosys
 - **Google ADK** - Agent Development Kit documentation and Python source
 - **OpenAI Agents** - OpenAI Agents SDK documentation and Python source
 - **LangChain Ecosystem** - LangGraph, LangChain core, and DeepAgents source code
+- **Anthropic Claude** - Claude Agent SDK documentation and Python source
+- **CrewAI** - CrewAI multi-agent framework documentation and Python source
 - **General** - Agent development guides and notebooks
 
 ## Commands
@@ -31,10 +33,12 @@ python -m src.grounding.query.query "your query" --expand-context --expand-top-k
 python -m src.grounding.query.query "your query" --expand-context --expand-window 2
 
 # Query specific SDK groups
-python -m src.grounding.query.query "your query" --sdk adk      # Google ADK
-python -m src.grounding.query.query "your query" --sdk openai   # OpenAI Agents
+python -m src.grounding.query.query "your query" --sdk adk       # Google ADK
+python -m src.grounding.query.query "your query" --sdk openai    # OpenAI Agents
 python -m src.grounding.query.query "your query" --sdk langchain # LangChain ecosystem
 python -m src.grounding.query.query "your query" --sdk langgraph # LangGraph + DeepAgents
+python -m src.grounding.query.query "your query" --sdk anthropic # Claude Agent SDK
+python -m src.grounding.query.query "your query" --sdk crewai    # CrewAI Framework
 
 # Pipeline scripts (run in order for fresh setup)
 python -m src.grounding.scripts.00_smoke_test_connections

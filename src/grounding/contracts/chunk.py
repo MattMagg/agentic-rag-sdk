@@ -28,6 +28,12 @@ SourceCorpus = Literal[
     "langchain_python",
     "deepagents_docs",
     "deepagents_python",
+    # Anthropic Claude Agent SDK
+    "claude_sdk_docs",
+    "claude_sdk_python",
+    # CrewAI Framework
+    "crewai_docs",
+    "crewai_python",
 ]
 ContentKind = Literal["code", "doc"]
 

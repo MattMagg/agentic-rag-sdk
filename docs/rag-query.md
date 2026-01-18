@@ -1,5 +1,5 @@
 ---
-description: Query the RAG database for grounding information (supports Google ADK, OpenAI Agents SDK, LangChain/LangGraph, and general agent docs)
+description: Query the RAG database for grounding information (supports Google ADK, OpenAI Agents SDK, LangChain/LangGraph, Anthropic Claude SDK, CrewAI, and general agent docs)
 ---
 
 # RAG Query Tool
@@ -25,6 +25,12 @@ python -m src.grounding.query.query "ChatOpenAI model" --sdk langchain
 # Query LangGraph-specific (includes DeepAgents)
 python -m src.grounding.query.query "StateGraph checkpoint" --sdk langgraph
 
+# Query Anthropic Claude Agent SDK
+python -m src.grounding.query.query "create Claude agent" --sdk anthropic
+
+# Query CrewAI Framework
+python -m src.grounding.query.query "define a crew" --sdk crewai
+
 # Query general agent development docs
 python -m src.grounding.query.query "agent architectures" --sdk general
 ```
@@ -37,6 +43,8 @@ python -m src.grounding.query.query "agent architectures" --sdk general
 | `--sdk openai` | `openai_agents_docs`, `openai_agents_python` |
 | `--sdk langchain` | `langgraph_python`, `langchain_python`, `deepagents_python`, `deepagents_docs` |
 | `--sdk langgraph` | `langgraph_python`, `deepagents_python`, `deepagents_docs` |
+| `--sdk anthropic` | `claude_sdk_docs`, `claude_sdk_python` |
+| `--sdk crewai` | `crewai_docs`, `crewai_python` |
 | `--sdk general` | `agent_dev_docs` |
 
 ---
@@ -83,7 +91,7 @@ for r in results["results"]:
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--sdk` | none | SDK group: `adk`, `openai`, `langchain`, `langgraph`, `general` |
+| `--sdk` | none | SDK group: `adk`, `openai`, `langchain`, `langgraph`, `anthropic`, `crewai`, `general` |
 | `--corpus` | all | Filter by specific corpus (repeatable) |
 | `--top-k` | 12 | Number of final results |
 | `--fusion` | dbsf | Fusion method: `dbsf` (Distribution-Based) or `rrf` (Reciprocal Rank) |
@@ -112,6 +120,10 @@ for r in results["results"]:
 | `langchain_python` | langchain | code | LangChain core + key partners source |
 | `deepagents_docs` | langchain, langgraph | doc | DeepAgents documentation |
 | `deepagents_python` | langchain, langgraph | code | DeepAgents source code |
+| `claude_sdk_docs` | anthropic | doc | Anthropic Claude Agent SDK documentation |
+| `claude_sdk_python` | anthropic | code | Anthropic Claude Agent SDK source code |
+| `crewai_docs` | crewai | doc | CrewAI framework documentation |
+| `crewai_python` | crewai | code | CrewAI framework source code |
 | `agent_dev_docs` | general | doc | Agent development PDFs & notebooks |
 
 ---

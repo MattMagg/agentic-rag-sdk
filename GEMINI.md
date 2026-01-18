@@ -61,6 +61,12 @@ python -m src.grounding.query.query_adk "ChatOpenAI model" --sdk langchain
 # Query LangGraph-specific (includes DeepAgents)
 python -m src.grounding.query.query_adk "StateGraph checkpoint" --sdk langgraph
 
+# Query Anthropic Claude Agent SDK
+python -m src.grounding.query.query_adk "create Claude agent" --sdk anthropic
+
+# Query CrewAI Framework
+python -m src.grounding.query.query_adk "define a crew" --sdk crewai
+
 # Query only general agent development docs
 python -m src.grounding.query.query_adk "agent architectures" --sdk general
 ```
@@ -73,6 +79,8 @@ python -m src.grounding.query.query_adk "agent architectures" --sdk general
 | `--sdk openai` | `openai_agents_docs`, `openai_agents_python` |
 | `--sdk langchain` | `langgraph_python`, `langchain_python`, `deepagents_python`, `deepagents_docs` |
 | `--sdk langgraph` | `langgraph_python`, `deepagents_python`, `deepagents_docs` |
+| `--sdk anthropic` | `claude_sdk_docs`, `claude_sdk_python` |
+| `--sdk crewai` | `crewai_docs`, `crewai_python` |
 | `--sdk general` | `agent_dev_docs` |
 
 ### Additional Options

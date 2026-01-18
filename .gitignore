@@ -168,3 +168,5 @@ session-*.md
 
 # MCP memory files
 **/CLAUDE.md
+corpora/claude-agent-sdk-python
+corpora/crewAI

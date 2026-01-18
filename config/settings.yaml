@@ -274,3 +274,92 @@ ingestion:
       allowed_exts: [".py"]
       max_file_bytes: 500000
 
+    # =========================================================================
+    # Anthropic Claude Agent SDK
+    # =========================================================================
+
+    # Claude Agent SDK - Documentation
+    claude_sdk_docs:
+      root: "corpora/claude-agent-sdk-python"
+      corpus: "claude_sdk_docs"
+      repo: "anthropic/claude-agent-sdk-python"
+      kind: "doc"
+      ref: "main"
+      include_globs:
+        - "README.md"
+        - "CLAUDE.md"
+        - "CHANGELOG.md"
+      exclude_globs:
+        - "**/.git/**"
+        - "**/.claude/**"
+      allowed_exts: [".md"]
+      max_file_bytes: 500000
+
+    # Claude Agent SDK - Python Source Code
+    claude_sdk_python:
+      root: "corpora/claude-agent-sdk-python"
+      corpus: "claude_sdk_python"
+      repo: "anthropic/claude-agent-sdk-python"
+      kind: "code"
+      ref: "main"
+      include_globs:
+        - "src/**/*.py"
+        - "examples/**/*.py"
+        - "pyproject.toml"
+      exclude_globs:
+        - "**/.git/**"
+        - "**/__pycache__/**"
+        - "**/tests/**"
+        - "**/e2e-tests/**"
+        - "**/scripts/**"
+        - "**/.claude/**"
+      allowed_exts: [".py", ".toml"]
+      max_file_bytes: 500000
+
+    # =========================================================================
+    # CrewAI Framework
+    # =========================================================================
+
+    # CrewAI - Documentation
+    crewai_docs:
+      root: "corpora/crewAI"
+      corpus: "crewai_docs"
+      repo: "crewAIInc/crewAI"
+      kind: "doc"
+      ref: "main"
+      include_globs:
+        - "README.md"
+        - "docs/**/*.md"
+        - "docs/**/*.mdx"
+        - "lib/crewai/README.md"
+        - "lib/crewai-tools/README.md"
+      exclude_globs:
+        - "**/.git/**"
+        - "docs/ko/**"
+        - "docs/pt-BR/**"
+        - "docs/images/**"
+      allowed_exts: [".md", ".mdx"]
+      max_file_bytes: 500000
+
+    # CrewAI - Python Source Code
+    crewai_python:
+      root: "corpora/crewAI"
+      corpus: "crewai_python"
+      repo: "crewAIInc/crewAI"
+      kind: "code"
+      ref: "main"
+      include_globs:
+        - "lib/crewai/src/**/*.py"
+        - "lib/crewai-tools/src/**/*.py"
+        - "lib/devtools/src/**/*.py"
+        - "lib/crewai/pyproject.toml"
+        - "lib/crewai-tools/pyproject.toml"
+      exclude_globs:
+        - "**/.git/**"
+        - "**/__pycache__/**"
+        - "**/tests/**"
+        - "**/uv.lock"
+        - "conftest.py"
+      allowed_exts: [".py", ".toml"]
+      max_file_bytes: 500000
+

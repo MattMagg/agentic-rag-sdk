@@ -128,6 +128,10 @@ CORPUS_GROUPS = {
         "deepagents_docs",
     ],
     "langgraph": ["langgraph_python", "deepagents_python", "deepagents_docs"],
+    # Anthropic Claude Agent SDK
+    "anthropic": ["claude_sdk_docs", "claude_sdk_python"],
+    # CrewAI Framework
+    "crewai": ["crewai_docs", "crewai_python"],
 }
 
 # All known corpora (for validation)
@@ -142,6 +146,12 @@ ALL_CORPORA = [
     "langchain_python",
     "deepagents_docs",
     "deepagents_python",
+    # Anthropic Claude Agent SDK
+    "claude_sdk_docs",
+    "claude_sdk_python",
+    # CrewAI Framework
+    "crewai_docs",
+    "crewai_python",
 ]
 
 

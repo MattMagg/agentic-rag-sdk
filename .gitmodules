@@ -1,0 +1,24 @@
+[submodule "corpora/adk-docs"]
+	path = corpora/adk-docs
+	url = https://github.com/google/adk-docs.git
+[submodule "corpora/adk-python"]
+	path = corpora/adk-python
+	url = https://github.com/google/adk-python.git
+[submodule "corpora/deepagents"]
+	path = corpora/deepagents
+	url = https://github.com/langchain-ai/deepagents.git
+[submodule "corpora/langchain"]
+	path = corpora/langchain
+	url = https://github.com/langchain-ai/langchain.git
+[submodule "corpora/langgraph"]
+	path = corpora/langgraph
+	url = https://github.com/langchain-ai/langgraph.git
+[submodule "corpora/openai-agents-python"]
+	path = corpora/openai-agents-python
+	url = https://github.com/openai/openai-agents-python.git
+[submodule "corpora/claude-agent-sdk-python"]
+	path = corpora/claude-agent-sdk-python
+	url = https://github.com/anthropic/claude-agent-sdk-python.git
+[submodule "corpora/crewAI"]
+	path = corpora/crewAI
+	url = https://github.com/crewAIInc/crewAI.git

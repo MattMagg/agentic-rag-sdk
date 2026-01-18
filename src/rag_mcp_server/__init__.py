@@ -17,6 +17,10 @@ Related files:
 
 __version__ = "0.1.0"
 
+from .server import main, mcp
+
 __all__ = [
     "__version__",
+    "main",
+    "mcp",
 ]

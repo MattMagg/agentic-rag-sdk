@@ -52,7 +52,11 @@ dependencies = [
     "pyyaml>=6.0.0",
     "rich>=13.0.0",
     "fastembed>=0.5.0",
+    "fastmcp>=2.0.0",
 ]
+
+[project.scripts]
+rag-mcp-server = "rag_mcp_server.server:main"
 
 [project.urls]
 Homepage = "https://github.com/MattMagg/rag_qdrant_voyage"
@@ -67,7 +71,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/grounding"]
+packages = ["src/grounding", "src/rag_mcp_server"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

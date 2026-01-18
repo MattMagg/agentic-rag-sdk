@@ -295,24 +295,104 @@ async def rag_search_quick(
         str | None,
         "Filter by SDK: 'adk', 'openai', 'langchain', 'langgraph', 'anthropic', 'crewai'",
     ] = None,
-    top_k: Annotated[int, "Number of results to return"] = 5,
-) -> dict:
+    corpus: Annotated[
+        list[str] | None,
+        "Filter by specific corpus names (e.g., ['adk_docs', 'adk_python'])",
+    ] = None,
+    kind: Annotated[
+        str | None,
+        "Filter by content type: 'doc' for documentation, 'code' for source code",
+    ] = None,
+    top_k: Annotated[int, "Number of results to return"] = 20,
+) -> dict[str, Any]:
     """
-    Fast RAG search without reranking.
+    Fast RAG search without reranking (3-5x faster than rag_search).
 
-    Performs hybrid search across documentation and code but skips the
-    reranking step for faster response times. Use when speed is more
-    important than optimal ranking.
+    Performs hybrid search across documentation and code but skips reranking
+    and context expansion for faster response times. Results are ordered by
+    hybrid search score only. Higher default top_k compensates for less
+    precise ranking.
+
+    Use this for quick lookups where speed matters more than optimal ranking.
+    For comprehensive searches with reranking, use rag_search instead.
     """
-    return {
-        "status": "not_implemented",
-        "tool": "rag_search_quick",
-        "params": {
-            "query": query,
-            "sdk": sdk,
-            "top_k": top_k,
-        },
+    warnings: list[str] = []
+
+    # Validate SDK
+    if sdk and sdk not in CORPUS_GROUPS:
+        valid_sdks = list(CORPUS_GROUPS.keys())
+        warnings.append(f"Unknown SDK '{sdk}', valid options: {valid_sdks}")
+        sdk = None
+
+    # Build filters
+    filters = _build_corpus_filter(sdk, corpus, kind)
+
+    # Speed-optimized parameters: no reranking, no context expansion
+    # Lower first_stage_k since we're not reranking anyway
+    speed_params = {
+        "rerank": False,
+        "expand_context": False,
+        "first_stage_k": 60,
+        "rerank_candidates": 40,
     }
+
+    try:
+        # Run sync search in thread pool to avoid blocking
+        loop = asyncio.get_running_loop()
+        raw_result = await loop.run_in_executor(
+            None,
+            lambda: grounding_search(
+                query=query,
+                top_k=top_k,
+                mode="build",  # Default mode
+                filters=filters,
+                verbose=False,  # Keep it fast
+                **speed_params,
+            ),
+        )
+
+        # Transform results to Evidence Pack format
+        evidence = [
+            _transform_result_to_evidence(r)
+            for r in raw_result.get("results", [])
+        ]
+
+        # Build coverage info
+        coverage_raw = raw_result.get("coverage", {})
+        doc_count = sum(1 for e in evidence if e["kind"] == "doc")
+        code_count = sum(1 for e in evidence if e["kind"] == "code")
+        corpora_list = list(coverage_raw.keys())
+
+        # Combine warnings
+        all_warnings = warnings + raw_result.get("warnings", [])
+
+        return {
+            "query": query,
+            "count": len(evidence),
+            "evidence": evidence,
+            "coverage": {
+                "doc_count": doc_count,
+                "code_count": code_count,
+                "corpora": corpora_list,
+            },
+            "warnings": all_warnings,
+        }
+
+    except Exception as e:
+        # Return error dict instead of raising
+        return {
+            "query": query,
+            "count": 0,
+            "evidence": [],
+            "coverage": {
+                "doc_count": 0,
+                "code_count": 0,
+                "corpora": [],
+            },
+            "error": str(e),
+            "error_type": type(e).__name__,
+            "warnings": warnings + [f"Search failed: {e}"],
+        }
 
 
 # =============================================================================

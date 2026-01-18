@@ -168,3 +168,6 @@ session-*.md
 
 # MCP memory files
 **/CLAUDE.md
+
+# Git worktrees
+.worktrees/

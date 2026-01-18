@@ -519,15 +519,53 @@ async def rag_corpus_info(
     """
     Get detailed corpus information.
 
-    Returns statistics about a specific corpus including document count,
-    chunk count, last ingestion time, and configured paths/extensions.
+    Returns configuration details for a specific corpus including content kind,
+    SDK group membership, file path patterns, and allowed extensions.
     """
-    return {
-        "status": "not_implemented",
-        "tool": "rag_corpus_info",
-        "params": {
+    warnings: list[str] = []
+
+    # Load settings
+    try:
+        settings = get_settings()
+    except Exception as e:
+        return {
             "corpus": corpus,
-        },
+            "warnings": [f"Failed to load settings: {e}"],
+        }
+
+    # Check if corpus exists in config
+    if corpus not in settings.ingestion.corpora:
+        configured_corpora = list(settings.ingestion.corpora.keys())
+        return {
+            "corpus": corpus,
+            "warnings": [
+                f"Corpus '{corpus}' not found in configuration. "
+                f"Available corpora: {configured_corpora}"
+            ],
+        }
+
+    # Get corpus config
+    corpus_config = settings.ingestion.corpora[corpus]
+
+    # Find SDK groups this corpus belongs to
+    sdk_groups: list[str] = []
+    for group_name, corpus_list in CORPUS_GROUPS.items():
+        if corpus in corpus_list:
+            sdk_groups.append(group_name)
+
+    # Warn if corpus is not in any SDK group
+    if not sdk_groups:
+        warnings.append(f"Corpus '{corpus}' is not in any SDK group")
+
+    return {
+        "corpus": corpus,
+        "kind": corpus_config.kind,
+        "sdk_groups": sdk_groups,
+        "base_path": corpus_config.root,
+        "include_globs": corpus_config.include_globs,
+        "exclude_globs": corpus_config.exclude_globs,
+        "allowed_extensions": corpus_config.allowed_exts,
+        "warnings": warnings,
     }
 
 

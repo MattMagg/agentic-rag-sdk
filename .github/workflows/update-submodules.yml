@@ -19,7 +19,7 @@ jobs:
 
       - name: Update submodules to latest
         run: |
-          git submodule update --remote --merge
+          git submodule update --remote --checkout
 
       - name: Check for changes
         id: changes

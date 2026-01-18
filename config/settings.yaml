@@ -38,12 +38,12 @@ retrieval_defaults:
     score_decay_factor: 0.85  # Score multiplier for adjacent chunks
     max_expanded_chunks: 20 # Safety cap on total expanded
 
-  # Legacy fields for backwards compatibility (kept for env var substitution)
+  # Legacy fields for backwards compatibility
   fusion: "dbsf"
-  prefetch_limit_dense: ${RETRIEVAL_PREFETCH_LIMIT_DENSE}
-  prefetch_limit_sparse: ${RETRIEVAL_PREFETCH_LIMIT_SPARSE}
-  final_limit: ${RETRIEVAL_FINAL_LIMIT}
-  rerank_top_k: ${RERANK_TOP_K}
+  prefetch_limit_dense: 60
+  prefetch_limit_sparse: 80
+  final_limit: 30
+  rerank_top_k: 12
 
 # Ingestion configuration per SPEC-00 corpus embedding targets
 ingestion:
@@ -117,21 +117,6 @@ ingestion:
         - "llms-full.txt"
       allowed_exts: [".py", ".md", ".toml"]
       max_file_bytes: 500000
-
-    agent_dev_docs:
-      root: "corpora/agent-dev-docs"
-      corpus: "agent_dev_docs"
-      repo: "internal/agent-dev-docs"
-      kind: "doc"  # Uses voyage-context-3
-      ref: "local"
-      include_globs:
-        - "*.md"                      # Root-level extracted PDFs
-        - "notebooks-converted/*.md"  # Converted notebook examples
-      exclude_globs:
-        - "**/.DS_Store"
-        - "**/notebooks/**"           # Skip raw notebook files
-      allowed_exts: [".md"]
-      max_file_bytes: 5000000  # 5MB for large PDF extractions
 
     # OpenAI Agents SDK - Documentation
     openai_agents_docs:
